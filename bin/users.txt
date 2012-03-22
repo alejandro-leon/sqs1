@@ -1,0 +1,4 @@
+FullName,Username,Password   example= John Doe,jdoe,secret123
+Luis Cerdas,lcerdas,lc3rdas
+Marianela Calvo,mcalvo,mcalv0
+',','

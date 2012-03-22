@@ -1,0 +1,4 @@
+Wieght,Discount%   example= 25,10%
+12,2%
+24,5%
+36,10%
