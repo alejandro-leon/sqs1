@@ -1,7 +1,7 @@
 # This Class contains the methods to control the different actions and forms 
 # related to the products application.
 class Product
-# attr_reader :product
+
 #Acions
 
   # Method that reads data from the products.txt file and creates a "table" with the product
@@ -24,7 +24,7 @@ class Product
     end
   end
   
-  #Method for accessing the product table created.
+  #Method for accessing the product table created from products.txt file.
   def get_product_table
     @product
   end

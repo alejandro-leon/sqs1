@@ -2,7 +2,7 @@ require "./products"
 require "./utilities"
 # This class will help in the business logic and display of quotes by the main application.
 class Quote
-# attr_accessor :quotes
+
 # The "Quote" class contains methods which help create the quotes for the sales quote report,
 # combining user entered information with information fetched from the product file.
 # When a new object from the "Quote" class is created, the "Product" class is loaded as well 
@@ -145,7 +145,7 @@ end
   end
 
   # Method for calculating the subtotal price of the selected products,
-  # which is the total of product prices without the discount.
+  # which is the total of product prices without subtracting the discount.
   def calculate_subtotal_price
     x = @quotes
     subtotalPrice = 0
@@ -156,6 +156,25 @@ end
     subtotalPrice
   end
 
+  # Method that retrieves the discount information from the discounts.txt file
+  def initialize #load_discount_list
+  discountsFile = "./discounts.txt" # access the external file
+  @discount = IO.readlines(discountsFile) # reads each line and saves them into an array
+  @discount.delete(@discount[0]) # eliminates the first line which is a comment.
+  # Goes through each element of the product array and convert it from string to an array.
+    for i in 0...@discount.count
+      @discount[i] = @discount[i].chomp.split(/,/)
+      # Strips (eliminates) any white spaces before and after each element in the new arrays.
+      for i2 in 0...@discount[i].count
+        @discount[i][i2] = @discount[i][i2].strip
+      end
+    end
+  end
+
+  # Method that checks if the total weight of the quote lines matches any of the thresholds
+  # specified for a discounts.
+  
+  
  #Forms
  
   #This method displays the newly added quote lines

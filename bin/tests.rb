@@ -8,14 +8,16 @@ class Check < Test::Unit::TestCase
 #assert_equal(expected_answer, ClassTested.new(arg1,arg2).method_name_to_test)
 #If you want test to fail change correct_answer to incorrect_answer.
 
-############### Test User Class ###################
+# Test for matching range of weights needed for discount
 
+
+# Test for subtotal price
 # This gave me a failure, though the calculation was right, the result was the 
 # for count and not a number, then when returning subtotalPrice the resulting
 # 24 was a float not an integer.  24.0 tested positive. 
 # Changed it to 24.0 and passed
   def test_subtotal
-    x = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 54, 6]]
+    x = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]]
     assert_equal(24.0, Quote.new.calculate_subtotal_price(x))
     # Should be (2*6) + (2*6) = 24
   end
