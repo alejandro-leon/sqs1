@@ -1,15 +1,22 @@
+
+require "test/unit"
+class Check < Test::Unit::TestCase
+
+# Random things I was testing
+
 # Test to make method return a false value,
 # array "a" doesn't have the value "4"
-
-a = [1, 3, 2, 9]
-i = 0
-while i < a.count
-  puts i
-  validValue = a[i]
-  validValue == 4
-  i +=1
+def exist_in_array?
+  a = [1, 3, 2, 9]
+  i = 0
+  while i < a.count
+    puts i
+    validValue = a[i]
+    validValue == 4
+    i += 1
+    end
+  assert_equal(true)
 end
-
 # Putting a token so the returning value is true or false (set to 0 for false)
 a = [1, 3, 2, 9]
 i = 0

@@ -1,11 +1,12 @@
 # This Class contains the methods to control the different actions and forms 
 # related to the products application.
 class Product
+# attr_reader :product
 #Acions
 
   # Method that reads data from the products.txt file and creates a "table" with the product
   # information entered in the products.txt file by the manager or administrator. 
-  def load_product_list
+  def initialize #load_product_list
     # This specifies a file to be read for input data about products.
     productsFile = "./products.txt"    
     # Reads each line in the products.txt file and creates an array of strings in the instance
@@ -21,19 +22,19 @@ class Product
         @product[i][i2] = @product[i][i2].strip
       end
     end
-
   end
-
+  
+  #Method for accessing the product table created.
+  def get_product_table
+    @product
+  end
+  
   # Method to obtain the number of products in the list.
   def get_product_count
     @product.count
   end
 
-  def get_product_table
-    @product
-  end
-
-  #Method matches the idNum received with the product with that number.
+  #Method matches the idNum received with the product corresponding to that number.
   def match_product_id(idNum)
     i = idNum.to_i - 1
     @product[i]
