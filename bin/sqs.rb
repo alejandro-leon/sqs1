@@ -32,8 +32,6 @@ load "./authentications.rb"
 fromAuthentications = Authentication.new
 # The file with the "Quote" class is loaded here, which contains the quoting methods.
 load "./quotes.rb"
-# Another object is created here.  This one is from the Quote class for creating quotes
-fromQuotes = Quote.new
 # The file with the "Utility" class is loaded here, which contains helper methods.
 load "./utilities.rb"
 # Another object is created here to manage quotes, this one is from the Quote class.
@@ -44,12 +42,13 @@ fromUtils = Utility.new
 fromAuthentications.authenticate
 # Displays user's name according to successful login information
 $userName = fromAuthentications.get_full_name
-#fromUtils.send_current_user(userName)
+#fromUtils.send_current_user(@userName)
 fromUtils.display_logo_banner(1)
 puts "You have logged in successfully!"
 #sleep 2.63#######################################################################################################
 ################################# newQuoteReport starts ####################################
-quoteReport = fromQuotes.create_quote_report
+# Another object is created here.  This one is from the Quote class for creating quotes
+startQuoting = Quote.new
 
 ################################### newQuoteReport ends #######################################
 

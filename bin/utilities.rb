@@ -2,9 +2,9 @@
 class Utility
 
 #Actions
-  def send_current_user(username)
-    @currentUser = username
-  end
+#  def send_current_user(username)
+#    @currentUser = username
+#  end
 #Forms
 
   # Method for displaying the banner

@@ -1,4 +1,5 @@
 require "./products"
+require "./discounts"
 require "./utilities"
 # This class will help in the business logic and display of quotes by the main application.
 class Quote
@@ -10,11 +11,11 @@ class Quote
 # accessing a database to retrieve product information.
 
   # Method for creating a new Quote Report
-  def create_quote_report # Main in "Quote" class, but put as a method
+  def initialize #create_quote_report # Main method in "Quote" class.
     fromUtils2 = Utility.new    
     newQuoteReport = true
     while newQuoteReport == true
-       # Option selection for the Quote Report menu
+       # Option selection  menu for the Quote Report
       option1 = 1
       error3 = ""
       while option1 == 1
@@ -25,18 +26,20 @@ class Quote
         if (option1 > 0) and (option1 < 3)
           case option1
           when 1
+            # Here it starts to call other methods in the same "Quote" class.
             customerName = self.get_customer_name
             businessOpportunity = self.get_business_opportunity
             quoteLines = self.create_quote_line
             newQuoteReport = true
           when 2
             newQuoteReport = false
+            option1 = 2
           end
         else
           error3 = "Invalid input.  "
           option1 = 1
         end # if
-      end # while option1
+      end # while option1 menu
     end # while newQuoteReport
     
     puts customerName
@@ -61,7 +64,7 @@ class Quote
         alert2 = ""
         until device == true
           fromUtils2.display_logo_banner(1) 
-          puts "#{alert2}Provide the name of the device to safeguard:"
+          puts "#{alert2}Please provide the name of the device to safeguard:"
           deviceName = gets.strip.chomp    #Blank spaces stripped at input.
           # Check device name is no longer than 12 characters and not blank.
           d = deviceName.length
@@ -80,10 +83,11 @@ class Quote
           fromUtils2.display_logo_banner(1) 
           puts "#{msg}"
           deviceQuantity = gets.chomp
+          deviceQuantity.slice!(",")
           # Check quantity is integer within defined range. Tested with value equivalence analysis.
           q = deviceQuantity.to_i
-          quantity = (q > 0) && (q < 1000000)
-          msg = "\"#{deviceQuantity}\" is not a valid input, please enter a valid device quantity:"
+          quantity = (q > 0) && (q < 100000)
+          msg = "\"#{deviceQuantity}\" 99,999 limit, please enter a valid device quantity:"
         end
         # The product list is displayed through the display_product_list method and the user is 
         # prompted to select a service product for the entered device(s).
@@ -171,7 +175,7 @@ class Quote
         header = "Selections"
         puts "|#{header.center(78)}|"
         puts "-"*80
-        puts "|     Device    |Quantity|       Product Plan        | Price/Unit|    Amount   |"
+        puts "|    Device     |Quantity|       Product Plan      | Price/Unit|     Amount    |"
         puts "-"*80
         x = quoteTable # x is just a local variable to ease up typing
         for i in 0...x.count
@@ -180,8 +184,8 @@ class Quote
           # Amount is quantity(converted to integer) x price/unit(converted to float).
           amount = qt.to_i * pu.to_f
           # Round amount to 2 decimal places, convert back to string, and add $ for print.
-          am = dol2.concat(amount.round(2).to_s)
-          puts "|#{id.to_s.rjust(2)}| #{dv.ljust(12)}|#{qt.center(6)}| #{plan.ljust(27)}|#{dol1.concat(pu).rjust(10)} |#{am.rjust(12)} |"  
+          am = dol2 << amount.round(2).to_s
+          puts "|#{id.to_s.rjust(2)}| #{dv.ljust(12)}|#{qt.center(6)}| #{plan.ljust(25)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"  
         end
         puts "-"*80
         puts; puts "Hello, #{$userName}"; puts ; puts
@@ -228,46 +232,49 @@ class Quote
     end  # until business
   end # def get_business_opportunity
 
-  #Method for calculating the discount. Compares total weight to weight from discount table.
-  def calculate_total_discount
-    x = @quotes
-    totalWeight = 0
-    for i in 0...x.count
-      totalWeight += x[i][4]
-    end
-#need to calculate %
-  end
-
   # Method for calculating the subtotal price of the selected products,
   # which is the total of product prices without subtracting the discount.
   def calculate_subtotal_price
     x = @quotes
     subtotalPrice = 0
-  # For each line in the table do subtotalPrice is sum of all the (quantity * price).
+  # For each line in the table do subtotalPrice is sum of all the (quantity * price) amounts.
       for i in 0...x.count
       subtotalPrice += (x[i][1].to_i * x[i][5].to_f).round(2)
       end
     subtotalPrice
   end
 
-  # Method that retrieves the discount information from the discounts.txt file
-  def initialize #load_discount_list
-  discountsFile = "./discounts.txt" # access the external file
-  @discount = IO.readlines(discountsFile) # reads each line and saves them into an array
-  @discount.delete(@discount[0]) # eliminates the first line which is a comment.
-  # Goes through each element of the product array and convert it from string to an array.
-    for i in 0...@discount.count
-      @discount[i] = @discount[i].chomp.split(/,/)
-      # Strips (eliminates) any white spaces before and after each element in the new arrays.
-      for i2 in 0...@discount[i].count
-        @discount[i][i2] = @discount[i][i2].strip
-      end # for i2
-    end # for i
-  end # def
 
-  # Method that checks if the total weight of the quote lines matches any of the thresholds
-  # specified for a discounts.
-  
+
+  # Method for calculating the discount.  It checks if the total weight of the quote lines 
+  # matches any of the thresholds and gets the specified discount percentage for the match.
+    # First we find out the total weight of all the devices
+  def calculate_total_weight
+    x = @quotes
+    totalWeight = 0
+    for i in 0...x.count
+      totalWeight += x[i][4].to_i # The 4th element in each array in array "x" is the weight.
+    end
+    totalWeight
+  end
+  # Then we find out the discount to the resulting total weight.
+  def calculate_total_discount
+    fromDiscounts = Discount.new
+    #t = self.calculate_total_weight
+    x = fromDiscounts.get_discount_table  # This is the discounts array
+    tentativeDiscountWeight = 0
+    for i in 0...x.count
+      if t >= x[i][0].to_i
+        if tentativeDiscountWeight < x[i][0].to_i # No matter what order the arrays are in,
+          tentativeDiscountWeight = x[i][0].to_i  # this will sort out the highest match.
+          discountIndex = i # With this index we can find which array contains the % we want.
+        end
+      else finalDiscountPercent = "0%"
+      end
+    @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array
+    return @finalDiscountPercent
+    end
+  end
   
  #Forms
  

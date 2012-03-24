@@ -12,14 +12,14 @@ class Product
     # Reads each line in the products.txt file and creates an array of strings in the instance
     # variable @product.
     @product = IO.readlines(productsFile)
-    # Eliminates the file's header, which is the first line.
-    @product.delete(@product[0])
+    # Eliminates the file's header, which is the first two lines.
+    @product.delete(@product[0...1])
     # Goes through each element of the product array and convert it from string to an array.
     for i in 0...@product.count
       @product[i] = @product[i].chomp.split(/,/)
       # Strips (eliminates) any white spaces before and after each element in the new arrays.
       for i2 in 0...@product[i].count
-        @product[i][i2] = @product[i][i2].strip
+        @product[i][i2] = @product[i][i2].strip  
       end
     end
   end
@@ -54,7 +54,7 @@ class Product
     x = @product # x is just a local variable to ease up typing
     for i in 0...x.count
       p1 = i.next; p2 = x[i][0]; p3 = x[i][1]; p4 = x[i][2]; p5 = x[i][3]; p6 = x[i][4]; dol = "$ "
-      puts "|#{p1.to_s.center(5)}| #{p2.ljust(32)}|#{p3.center(17)}|#{dol.concat(p5).rjust(19)} |"
+      puts "|#{p1.to_s.center(5)}| #{p2.ljust(32)}|#{p3.center(17)}|#{(dol<<p5).rjust(19)} |"
       # The manager suggested not to show the "weight" of the products on screen - #{p4.center(8)}
     end
     puts "-"*80
