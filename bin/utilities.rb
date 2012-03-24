@@ -1,9 +1,6 @@
 # The "Utility" class handles miscelaneous tasks.
 class Utility
 
-  def line
-    puts "Holita"
-  end
 #Actions
   def send_current_user(username)
     @currentUser = username
@@ -33,8 +30,9 @@ class Utility
     puts"                                QQQQQQQ                  ".center(80)
     case n
       when 1
-    puts "Hello, #{@currentUser}"; puts ; puts
+    puts "Hello, #{$userName}"; puts ; puts
       when 2
+        puts; puts; puts
       when 3
     puts"/ \\ / \\ / \\ /  \\ / \\ / \\ / \\     / \\ / \\       / \\ / \\ / \\    ".center(80) 
     puts"| W | E | L | C  | O | M | E |   | T | O |     | T | H | E |   ".center(80)

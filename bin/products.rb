@@ -58,7 +58,7 @@ class Product
       # The manager suggested not to show the "weight" of the products on screen - #{p4.center(8)}
     end
     puts "-"*80
-    puts; puts
+    puts; puts "Hello, #{$userName}"; puts ; puts
   end
 
 end

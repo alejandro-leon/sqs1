@@ -25,33 +25,8 @@ class User
     end
   end
 
-  # This method is a very basic authentication scheme where the entered username
-  # and password are received as method arguments and checked for a match. 
-  # If the two strings match with a pair entered through the controller.user_list
-  # method,a "true" value is returned, otherwise it returns "false".
-  # Note that in the ideal case there would be a mechanism to encrypt and decrypt
-  # the stored password so it cannot be read so easily.
-  def credentials_valid?(checkUser,checkPass)
-    u = @user
-    for i in 0...u.count
-      validUsername = u[i][1]
-      validPassword = u[i][2]
-      value = (checkUser == validUsername) && (checkPass == validPassword)
-      if value == true
-        token = 1
-      end
-    end
-    token == 1
+  def get_user_table
+    @user
   end
-
-  # Method for identifying the name of the logged in user.
-  def get_full_name(logged_in_username)
-    for i in 0...@user.count
-        username = @user[i][1] 
-        if username == logged_in_username
-          @currentUser = @user[i][0]
-        end
-    end
-    @currentUser
-  end
+  
 end

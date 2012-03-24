@@ -26,10 +26,10 @@
 =end
 # Here, the program loads the file containing the class "Users" which is a library 
 # of methods for authenticating the various users of the system.
-load "./users.rb"
-# Another object is created here to manage users, this one is from the User class.
-# The object internally loads a method to read user data from an external file.
-fromUsers = User.new
+load "./authentications.rb"
+# Another object is created here to manage users; it is from the Authentication class.
+# This object uses a "User" class object as an interface to the users.txt file.
+fromAuthentications = Authentication.new
 # The file with the "Quote" class is loaded here, which contains the quoting methods.
 load "./quotes.rb"
 # Another object is created here.  This one is from the Quote class for creating quotes
@@ -39,47 +39,18 @@ load "./utilities.rb"
 # Another object is created here to manage quotes, this one is from the Quote class.
 fromUtils = Utility.new
 ################################# User Authentication ###################################
-# In this section the system starts the interaction with the user.
-# A welcome screen is displayed at the start.
-fromUtils.display_logo_banner(3)
-# Below the welcome banner, the user is prompted for a username and a password.
-# The credentials_valid? method is called to assign a true or false value to input.
-# If input is "true" it is valid and the loop stops and lets the program continue.
-# If input is invalid, it lets the user try again.
-input = false
-error =""
-until input == true
-  fromUtils.display_logo_banner(2)
-  puts "#{error}Please enter your Username:"
-  enterUsername = gets.chomp
-  fromUtils.display_logo_banner(2)
-  puts "Please enter your Password:"
-  enterPassword = gets.chomp
-  input = fromUsers.credentials_valid?(enterUsername,enterPassword)
-  error = "Wrong credentials, try again. "
-end
+# In this section the system starts the interaction with the user by calling the 
+# authenticate method to get user information and validate it.
+fromAuthentications.authenticate
 # Displays user's name according to successful login information
-userName = fromUsers.get_full_name(enterUsername)
-fromUtils.send_current_user(userName)
+$userName = fromAuthentications.get_full_name
+#fromUtils.send_current_user(userName)
 fromUtils.display_logo_banner(1)
 puts "You have logged in successfully!"
-#sleep 2.6
+#sleep 2.63#######################################################################################################
 ################################# newQuoteReport starts ####################################
-##newQuoteReport = true
-##While newQuoteReport == true
+quoteReport = fromQuotes.create_quote_report
 
-
-# User is prompted for the customer's information.
-fromUtils.display_logo_banner(1)
-puts "Provide your Customer's Full Name or Company Name:"
-customerName = gets.chomp
-# Creating a new array where this session quote lines will be stored for this customer.
-#@quotes = []
-################################## newQuoteLine starts ######################################
-fromQuotes.create_new_quote(customerName)
-
-################################### newQuoteLine ends #########################################
-#end
 ################################### newQuoteReport ends #######################################
 
 puts "done"

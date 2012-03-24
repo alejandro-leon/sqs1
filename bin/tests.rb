@@ -11,17 +11,18 @@ class Check < Test::Unit::TestCase
 # Test for matching range of weights needed for discount
 
 
-# Test for subtotal price
+# Test for testing the calculate_subtotal_price module
 # This gave me a failure, though the calculation was right, the result was the 
 # for count and not a number, then when returning subtotalPrice the resulting
 # 24 was a float not an integer.  24.0 tested positive. 
 # Changed it to 24.0 and passed
   def test_subtotal
-    x = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]]
+    x = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]] #sample array
     assert_equal(24.0, Quote.new.calculate_subtotal_price(x))
-    # Should be (2*6) + (2*6) = 24
+    # Product quantity is in the second field of each array, price is in the sixth.
+    # Should be (2*6) + (2*6) = 24.0
   end
-=begin
+=begin This is a  sample test result when expected answer 24 instead of 24.0 
 Test results
  Loaded suite tests
 Started
