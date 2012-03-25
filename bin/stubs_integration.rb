@@ -44,22 +44,22 @@ class StubIntegration
     return totalWeight # This returns an integer
   end
   # Then we find out the discount to the resulting total weight.
-  def calculate_discount_percent(n)
+  def calculate_discount_percent
     fromDiscounts = Discount.new
-    t = n#self.calculate_total_weight
-    x = fromDiscounts.get_discount_table  # This is the @discounts array
+    w = self.calculate_total_weight
+    t = fromDiscounts.get_discount_table  # This is the @discounts array
     tentativeDiscountWeight = 0
     for i in 0...x.count
-      if t >= x[i][0].to_i
+      if w >= x[i][0].to_i
         if tentativeDiscountWeight < x[i][0].to_i # No matter what order the arrays are in,
           tentativeDiscountWeight = x[i][0].to_i  # this will sort out the highest match.
           discountIndex = i # With this index we can find which array contains the % we want.
         end
-      else noDiscount = true # If there are no matches, no discount is given.
       end
     end
-    if noDiscount == true
-      @finalDiscountPercent = "0"
+    # If there are no matches, tentativeDiscount remains = 0 and no discount is given.
+    if tentativeDiscountWeight == 0
+      @finalDiscountPercent = "0%"
     else @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array.
     end
     return @finalDiscountPercent # This returns a string

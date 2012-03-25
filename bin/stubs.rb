@@ -1,5 +1,7 @@
 require "./discounts"
 class Stub
+=begin
+  
 
   def calculate_total_weight(quotesTable)
     x = quotesTable
@@ -9,26 +11,32 @@ class Stub
     end
     return totalWeight # This returns an integer
   end
- 
-=begin
-  def calculate_discount_percent(t)
+=end
+ begin
+  def calculate_discount_percent(w)
     fromDiscounts = Discount.new
-    #t = self.calculate_total_weight
-    x = fromDiscounts.get_discount_table  # This is the discounts array
+    #w = self.calculate_total_weight
+    x = fromDiscounts.get_discount_table  # This is the @discounts array
     tentativeDiscountWeight = 0
     for i in 0...x.count
-      if t >= x[i][0].to_i
+      if w >= x[i][0].to_i
         if tentativeDiscountWeight < x[i][0].to_i # No matter what order the arrays are in,
           tentativeDiscountWeight = x[i][0].to_i  # this will sort out the highest match.
           discountIndex = i # With this we can find which array contains the % we want.
         end
-      else finalDiscountPercent = "0%"
+#      else finalDiscountPercent = "0%"
       end
-    @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array
-    return @finalDiscountPercent # This returns a string
+#    @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array
+#    return @finalDiscountPercent # This returns a string
     end
+    # If there are no matches, tentativeDiscount remains = 0 and no discount is given.
+    if tentativeDiscountWeight == 0
+      @finalDiscountPercent = "0%"
+    else @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array.
+    end
+    return @finalDiscountPercent # This returns a string.
   end
-=end
+ end
 =begin
   def calculate_subtotal_price(productTable)
     x = productTable

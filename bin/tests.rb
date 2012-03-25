@@ -51,6 +51,7 @@ class Check < Test::Unit::TestCase
     assert_equal(12, Stub.new.calculate_total_weight(x))
   end
 
+Results
   Loaded suite tests
   Started
   .
@@ -60,13 +61,13 @@ class Check < Test::Unit::TestCase
   
   Test run options: --seed 52002 
 =end
- 
+
 # Test for matching the weight to the discount percent thresholds.
   # Total weight "t" in the original method was replaced by sending a test weight as a parameter.
   # The test asserts that when weight equals "y%", the percent should equal "x",  [x,y%] being the
   # discount parameters retrieved from the discounts.txt file
   def test_discount_percent_should_fail_1
-      assert_equal("3%", Stub.new.calculate_discount_percent(12))
+      assert_equal("3%", Stub.new.calculate_discount_percent(99))
   end
   def test_discount_percent_shoud_fail_2_
       assert_equal("1%", Stub.new.calculate_discount_percent(12))
