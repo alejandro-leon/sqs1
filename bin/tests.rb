@@ -1,6 +1,5 @@
-require "./quotes2"
+require "./stubs"
 require "./quotes"
-require "./users"
 require "test/unit"
 class Check < Test::Unit::TestCase
 
@@ -8,18 +7,72 @@ class Check < Test::Unit::TestCase
 # assert_equal(expected_value, ClassTested.new(arg1,arg2).method_name_to_test(arg))
 # If you want test to fail change expected_value to an incorrect value.
 
+=begin
+# Test for testing the calculate_subtotal_price module.
+# At first expected_value was tested with the number 24 (integer), this gave a failure.
+# The second try, the integer 24 was replaced by 24.0 (float). Test passed
+  def test_subtotal_price
+    x = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]] #sample array used as productTable
+    assert_equal(24.0, Stub.new.calculate_subtotal_price(x))
+    # Product quantity is in the second field of each array. 
+    # The price of each product is in the sixth.
+    # Should be (2*6) + (2*6) = 24.0
+  end
+#This is a  sample test result when expected_value was 24 (integer):
+  Loaded suite tests
+  Started
+  F
+  Finished in 0.211 seconds.
+  
+    1) Failure:
+  test_subtotal(Check)
+      [tests.rb:14:in `test_subtotal'
+       org/jruby/RubyKernel.java:2076:in `send'
+       org/jruby/RubyArray.java:1615:in `each'
+       org/jruby/RubyArray.java:1615:in `each']:
+  <24> expected but was
+  <0...1>.
+  
+  1 tests, 1 assertions, 1 failures, 0 errors 
+  
+# Here is the same test with expected_value being 24.0 (which is a float):
+  Loaded suite tests
+  Started
+  .
+  Finished in 0.056000 seconds.
+  
+  1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+  
+  Test run options: --seed 35797
+=end
+=begin
+  def test_calculate_total_weight
+    x = [[1, 2, 3, 4, 4, 6], [1, 2, 3, 4, 8, 6]] #sample array used as productTable
+    assert_equal(12, Stub.new.calculate_total_weight(x))
+  end
+
+  Loaded suite tests
+  Started
+  .
+  Finished in 0.097000 seconds.
+  
+  1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+  
+  Test run options: --seed 52002 
+=end
+ 
 # Test for matching the weight to the discount percent thresholds.
   # Total weight "t" in the original method was replaced by sending a test weight as a parameter.
   # The test asserts that when weight equals "y%", the percent should equal "x",  [x,y%] being the
   # discount parameters retrieved from the discounts.txt file
-  def test_total_discount_should_fail_1
-      assert_equal("3%", Quote2.new.calculate_total_discount(12))
+  def test_discount_percent_should_fail_1
+      assert_equal("3%", Stub.new.calculate_discount_percent(12))
   end
-  def test_total_discount_shoud_fail_2_
-      assert_equal("1%", Quote2.new.calculate_total_discount(12))
+  def test_discount_percent_shoud_fail_2_
+      assert_equal("1%", Stub.new.calculate_discount_percent(12))
   end
-  def test_total_discount_should_pass
-      assert_equal("2%", Quote2.new.calculate_total_discount(12))
+  def test_discount_percent_should_pass
+      assert_equal("2%", Stub.new.calculate_discount_percent(12))
   end
 =begin
 Results of test by applying boundary value analysis:
@@ -29,8 +82,8 @@ Results of test by applying boundary value analysis:
   Finished in 0.256 seconds.
   
     1) Failure:
-  test_total_discount_shoud_fail_2_(Check)
-      [tests.rb:19:in `test_total_discount_shoud_fail_2_'
+  test_discount_percent_shoud_fail_2_(Check)
+      [tests.rb:19:in `test_discount_percent_shoud_fail_2_'
        org/jruby/RubyKernel.java:2076:in `send'
        org/jruby/RubyArray.java:1615:in `each'
        org/jruby/RubyArray.java:1615:in `each']:
@@ -38,8 +91,8 @@ Results of test by applying boundary value analysis:
   <"2%">.
   
     2) Failure:
-  test_total_discount_should_fail_1(Check)
-      [tests.rb:16:in `test_total_discount_should_fail_1'
+  test_discount_percent_should_fail_1(Check)
+      [tests.rb:16:in `test_discount_percent_should_fail_1'
        org/jruby/RubyKernel.java:2076:in `send'
        org/jruby/RubyArray.java:1615:in `each'
        org/jruby/RubyArray.java:1615:in `each']:
@@ -51,39 +104,39 @@ Results of test by applying boundary value analysis:
 This confirms that from the 3 assertion tests  the 2 expecting the values of
 1% and 3% failed.  This indicate 2% matched the expected result and passed.
 =end
-
-
-# Test for testing the calculate_subtotal_price module
-# This gave me a failure, though the calculation was right, the result was the 
-# for count and not a number, then when returning subtotalPrice the resulting
-# 24 was a float not an integer.  24.0 tested positive. 
-# Changed it to 24.0 and passed
 =begin
-  def test_subtotal
-    x = [[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]] #sample array
-    assert_equal(24.0, Quote.new.calculate_subtotal_price(x))
-    # Product quantity is in the second field of each array, price is in the sixth.
-    # Should be (2*6) + (2*6) = 24.0
+# Test for the calculate_discount_price method
+  def test_discount_price
+    assert_equal(0.48, Stub.new.calculate_discount_price("2%",24.0))
   end
+
+Results:
+  Loaded suite tests
+  Started
+  .
+  Finished in 0.085000 seconds.
+  
+  1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+  
+  Test run options: --seed 31418
 =end
 =begin
-This is a  sample test result when expected answer 24 instead of 24.0 
-Test results
- Loaded suite tests
+# This test is for the calculate_total_price method. It will test the integration of
+# all the above tests for the result of this one.
+  def test_calculate_total_price
+    assert_equal(23.52, Stub.new.calculate_total_price(24.0,0.48))
+  end
+
+Results:
+Loaded suite tests
 Started
-F
-Finished in 0.211 seconds.
+.
+Finished in 0.096000 seconds.
 
-  1) Failure:
-test_subtotal(Check)
-    [tests.rb:14:in `test_subtotal'
-     org/jruby/RubyKernel.java:2076:in `send'
-     org/jruby/RubyArray.java:1615:in `each'
-     org/jruby/RubyArray.java:1615:in `each']:
-<24> expected but was
-<0...1>.
+1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
 
-1 tests, 1 assertions, 1 failures, 0 errors 
+Test run options: --seed 42460
 =end
-end
 
+
+end

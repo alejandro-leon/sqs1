@@ -4,7 +4,8 @@ class Discount
   def initialize #load_discount_list
   discountsFile = "./discounts.txt" # access the external file
   @discount = IO.readlines(discountsFile) # reads each line and saves them into an array
-  @discount.delete(@discount[0...1]) # eliminates the first two lines which are comments.
+  @discount.delete(@discount[0]) # eliminates the first two lines which are comments.
+  @discount.delete(@discount[0])
   # Goes through each element of the @discount array and convert it from string to an array.
     for i in 0...@discount.count
       @discount[i] = @discount[i].chomp.split(/,/)

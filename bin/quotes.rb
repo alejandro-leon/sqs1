@@ -53,7 +53,6 @@ class Quote
       fromProducts = Product.new
       # Then a new object is created called "fromUtils" from the "Utility" class.
       fromUtils2 = Utility.new
-
       # Create a new array where this session quote lines will be stored for the customer
       @quotes = []
       # New quote lines are created here
@@ -83,7 +82,7 @@ class Quote
           fromUtils2.display_logo_banner(1) 
           puts "#{msg}"
           deviceQuantity = gets.chomp
-          deviceQuantity.slice!(",")
+          deviceQuantity.slice!(",") # Remove any commas entered.
           # Check quantity is integer within defined range. Tested with value equivalence analysis.
           q = deviceQuantity.to_i
           quantity = (q > 0) && (q < 100000)
@@ -91,7 +90,7 @@ class Quote
         end
         # The product list is displayed through the display_product_list method and the user is 
         # prompted to select a service product for the entered device(s).
-        msg2 = "Please select the ID of the product plan to safeguard the \"#{deviceName}\" device(s):"
+        msg2 = "Please select the ID of the product plan to safeguard the \"#{deviceName}\" device:"
         id = false
         until id == true
           fromProducts.display_product_list
@@ -106,9 +105,9 @@ class Quote
         # Take the device's name and quantity and create a new array along with the selected product
         # data producing a new quote line.
         quoteline =  [deviceName, deviceQuantity] + selectedProduct
-        # Adds the new quote line array into the @quotes array
+        # Adds the new quote line array as a new element of the @quotes array.
         quoteTable = @quotes << quoteline
-        # Option selection for the quote line menu
+        # Option selection for the quote line menu.
         option = 2
         error2 = ""
         while option == 2
@@ -121,7 +120,7 @@ class Quote
             when 1
               newQuoteLine = true
             when 2
-              self.delete_quote_line #calls method to delete quote line
+              self.delete_quote_line # Calls method to delete quote line.
             when 3
               newQuoteLine = false
             end
@@ -168,7 +167,7 @@ class Quote
           end # if sure
         end  # until del
       end # def delete_quote_line
-  #This method displays the newly added quote lines
+  #This method displays the newly added quote lines.
   def display_quote_line(quoteTable)
         puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts
         puts "-"*80
@@ -191,7 +190,7 @@ class Quote
         puts; puts "Hello, #{$userName}"; puts ; puts
       end
 
-  # Method for getting the customer's name
+  # Method for getting the customer's name.
   def get_customer_name
     fromUtils2 = Utility.new
     customer = false
@@ -211,7 +210,7 @@ class Quote
       end # if d
     end  # until customer
   end # def get_customer_name
-  # Method for getting business opportunity information
+  # Method for getting business opportunity information.
   def get_business_opportunity
     fromUtils2 = Utility.new
     business = false
@@ -232,20 +231,18 @@ class Quote
     end  # until business
   end # def get_business_opportunity
 
+# Calculations
   # Method for calculating the subtotal price of the selected products,
   # which is the total of product prices without subtracting the discount.
   def calculate_subtotal_price
     x = @quotes
     subtotalPrice = 0
-  # For each line in the table do subtotalPrice is sum of all the (quantity * price) amounts.
+  # For each line in the table, subtotalPrice is sum of all the (quantity * price) amounts.
       for i in 0...x.count
       subtotalPrice += (x[i][1].to_i * x[i][5].to_f).round(2)
       end
-    subtotalPrice
+    subtotalPrice # Returns subtotalPrice as a float
   end
-
-
-
   # Method for calculating the discount.  It checks if the total weight of the quote lines 
   # matches any of the thresholds and gets the specified discount percentage for the match.
     # First we find out the total weight of all the devices
@@ -255,12 +252,12 @@ class Quote
     for i in 0...x.count
       totalWeight += x[i][4].to_i # The 4th element in each array in array "x" is the weight.
     end
-    totalWeight
+    return totalWeight # This returns an integer
   end
   # Then we find out the discount to the resulting total weight.
-  def calculate_total_discount
+  def calculate_discount_percent
     fromDiscounts = Discount.new
-    #t = self.calculate_total_weight
+    t = self.calculate_total_weight
     x = fromDiscounts.get_discount_table  # This is the discounts array
     tentativeDiscountWeight = 0
     for i in 0...x.count
@@ -272,12 +269,21 @@ class Quote
       else finalDiscountPercent = "0%"
       end
     @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array
-    return @finalDiscountPercent
+    return @finalDiscountPercent # This returns a string
     end
   end
-  
- #Forms
- 
-
+  # After knowing the percentage, we can figure out what percentage that percentage is
+  # in dollar amount.
+  def calculate_discount_price
+    #First turn the discount percent from a string into a float. Then divide it by 100.
+    percent = (self.calculate_discount_percent).to_f / 100
+    # Finally the subtotal price is multiplied by percent to get the total price.
+    discountPrice = self.calculate_subtotal_price * percent
+    return discountPrice.round(2) # This returns a float rounded to 2 decimal places
+  end
+  # Finally, we subtract the discount amount from the subtotal price to get the final price.
+  def calculate_total_price
+    totalPrice = self.calculate_subtotal_price - self.calculate_discount_price
+  end    
 
 end

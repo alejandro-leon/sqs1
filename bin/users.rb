@@ -12,7 +12,8 @@ class User
     # variable @user.
     @user = IO.readlines(usersFile)
     # Eliminates the file's header, which is the first two lines.
-    @user.delete(@user[0...1])
+    @user.delete(@user[0])
+    @user.delete(@user[0])
     # Goes through each element of the user array and converts it from string to an array.
     # Basically creating arrays within an array.
     for i in 0...@user.count

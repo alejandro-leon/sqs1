@@ -13,7 +13,8 @@ class Product
     # variable @product.
     @product = IO.readlines(productsFile)
     # Eliminates the file's header, which is the first two lines.
-    @product.delete(@product[0...1])
+    @product.delete(@product[0])
+    @product.delete(@product[0])
     # Goes through each element of the product array and convert it from string to an array.
     for i in 0...@product.count
       @product[i] = @product[i].chomp.split(/,/)
