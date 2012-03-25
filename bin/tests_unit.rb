@@ -1,13 +1,18 @@
-require "./stubs"
-require "./quotes"
+require "./stubs_unit"
 require "test/unit"
 class Check < Test::Unit::TestCase
 
+# The tests in this file will test every unit of the calculation methods in the
+# "stubs_unit.rb" file individually.
+# Note that the tests results show that the tests did not fail with the data given,
+# The expected value of the tests was modified to incorrect date to see how the test failed.
+# A sample of some failed results is given for the test_subtotal_price.
+
 # Example format for tests to test equivalency:
 # assert_equal(expected_value, ClassTested.new(arg1,arg2).method_name_to_test(arg))
-# If you want test to fail change expected_value to an incorrect value.
+# The expected_value should be replaced with incorrect values to see how the test fails
+# before entering the correct values.
 
-=begin
 # Test for testing the calculate_subtotal_price module.
 # At first expected_value was tested with the number 24 (integer), this gave a failure.
 # The second try, the integer 24 was replaced by 24.0 (float). Test passed
@@ -17,7 +22,8 @@ class Check < Test::Unit::TestCase
     # Product quantity is in the second field of each array. 
     # The price of each product is in the sixth.
     # Should be (2*6) + (2*6) = 24.0
-  end
+  end  
+=begin  
 #This is a  sample test result when expected_value was 24 (integer):
   Loaded suite tests
   Started
@@ -45,21 +51,21 @@ class Check < Test::Unit::TestCase
   
   Test run options: --seed 35797
 =end
-=begin
+
   def test_calculate_total_weight
-    x = [[1, 2, 3, 4, 4, 6], [1, 2, 3, 4, 8, 6]] #sample array used as productTable
+    x = [[1, 3, 3, 4, 2, 6], [1, 2, 3, 4, 3, 6]] #sample array used as productTable
     assert_equal(12, Stub.new.calculate_total_weight(x))
   end
-
+=begin
 Results
-  Loaded suite tests
+  Loaded suite tests_unit
   Started
   .
-  Finished in 0.097000 seconds.
+  Finished in 0.074000 seconds.
   
   1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
   
-  Test run options: --seed 52002 
+  Test run options: --seed 47921
 =end
 
 # Test for matching the weight to the discount percent thresholds.
@@ -67,10 +73,10 @@ Results
   # The test asserts that when weight equals "y%", the percent should equal "x",  [x,y%] being the
   # discount parameters retrieved from the discounts.txt file
   def test_discount_percent_should_fail_1
-      assert_equal("3%", Stub.new.calculate_discount_percent(99))
+      assert_equal("1%", Stub.new.calculate_discount_percent(12))
   end
   def test_discount_percent_shoud_fail_2_
-      assert_equal("1%", Stub.new.calculate_discount_percent(12))
+      assert_equal("3%", Stub.new.calculate_discount_percent(12))
   end
   def test_discount_percent_should_pass
       assert_equal("2%", Stub.new.calculate_discount_percent(12))
@@ -105,12 +111,12 @@ Results of test by applying boundary value analysis:
 This confirms that from the 3 assertion tests  the 2 expecting the values of
 1% and 3% failed.  This indicate 2% matched the expected result and passed.
 =end
-=begin
+
 # Test for the calculate_discount_price method
   def test_discount_price
     assert_equal(0.48, Stub.new.calculate_discount_price("2%",24.0))
   end
-
+=begin
 Results:
   Loaded suite tests
   Started
@@ -121,13 +127,13 @@ Results:
   
   Test run options: --seed 31418
 =end
-=begin
+
 # This test is for the calculate_total_price method. It will test the integration of
 # all the above tests for the result of this one.
   def test_calculate_total_price
     assert_equal(23.52, Stub.new.calculate_total_price(24.0,0.48))
   end
-
+=begin
 Results:
 Loaded suite tests
 Started
@@ -138,6 +144,5 @@ Finished in 0.096000 seconds.
 
 Test run options: --seed 42460
 =end
-
 
 end

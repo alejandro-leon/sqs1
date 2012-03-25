@@ -1,22 +1,24 @@
 require "./discounts"
 class Stub
-=begin
-  
 
-  def calculate_total_weight(quotesTable)
+=begin
+=end
+  def calculate_total_weight(quotesTable)  # Sample quotes table.
     x = quotesTable
     totalWeight = 0
     for i in 0...x.count
-      totalWeight += x[i][4].to_i # The 4th element in each array in array "x" is the weight.
-    end
+      # Multiply the 5th element (weight) to the 2nd element (quantity) to get the total
+      # of each quote line and then add them together.
+      totalWeight += (x[i][4].to_i * x[i][1].to_i)
+    end                                            
     return totalWeight # This returns an integer
   end
+=begin 
 =end
- begin
-  def calculate_discount_percent(w)
+  def calculate_discount_percent(w)  # w is the sample weight.
     fromDiscounts = Discount.new
     #w = self.calculate_total_weight
-    x = fromDiscounts.get_discount_table  # This is the @discounts array
+    x = fromDiscounts.get_discount_table  # This is the @discounts array.
     tentativeDiscountWeight = 0
     for i in 0...x.count
       if w >= x[i][0].to_i
@@ -36,8 +38,9 @@ class Stub
     end
     return @finalDiscountPercent # This returns a string.
   end
- end
+
 =begin
+=end
   def calculate_subtotal_price(productTable)
     x = productTable
     subtotalPrice = 0
@@ -47,8 +50,8 @@ class Stub
       end
     subtotalPrice
   end
-=end
 =begin
+=end
   def calculate_discount_price(discount_percent,subtotal_price)
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (discount_percent).to_f / 100
@@ -56,10 +59,11 @@ class Stub
     discountPrice = subtotal_price * percent
     return discountPrice.round(2) # This returns a float rounded to 2 decimal places
   end
-=end
+
 =begin
+=end
   def calculate_total_price(subtotal_price,discount_price)
     totalPrice = subtotal_price - discount_price
   end    
-=end
+
 end
