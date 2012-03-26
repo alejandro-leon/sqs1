@@ -10,9 +10,10 @@ class Quote
 # as a requirement, since it loads the products from the products file.  This would resemble
 # accessing a database to retrieve product information.
 
+#Actions
   # Method for creating a new Quote Report
-  def initialize #create_quote_report # Main method in "Quote" class.
-    fromUtils2 = Utility.new    
+  def initialize # Main method in "Quote" class.
+    fromUtils2 = Utility.new
     newQuoteReport = true
     while newQuoteReport == true
        # Option selection  menu for the Quote Report
@@ -26,10 +27,7 @@ class Quote
         if (option1 > 0) and (option1 < 3)
           case option1
           when 1
-            # Here it starts to call other methods in the same "Quote" class.
-            customerName = self.get_customer_name
-            businessOpportunity = self.get_business_opportunity
-            quoteLines = self.create_quote_line
+            self.create_quote_report       
             newQuoteReport = true
           when 2
             newQuoteReport = false
@@ -45,9 +43,63 @@ class Quote
     puts customerName
     puts businessOpportunity
     puts quoteLines
-  end # End new Quote Report   
-    
-    # Method for creating new quote lines #
+  end # End new Quote Report
+
+  # Method that calls the methods get_customer_name, get_business_opportunity,
+  # create_quote_line, display_quote_report,and all the calculation methods to
+  # create the final sales quote report.
+  def create_quote_report
+    @customerName = self.get_customer_name
+    @businessOpportunity = self.get_business_opportunity
+    @quoteLines = self.create_quote_line
+    self.display_quote_report(@quoteLines,@customerName,@businessOpportunity)
+  end
+
+  # Method for getting the customer's name.
+  def get_customer_name
+    fromUtils2 = Utility.new
+    customer = false
+    alert = ""
+    until customer == true
+      fromUtils2.display_logo_banner(1)
+      puts "#{alert}Please provide the customer's name:"
+      customerName = gets.strip.chomp    #Blank spaces stripped at input.
+      # Check customer name is no longer than 50 characters and not blank.
+      c = customerName.length
+      customer = (c > 0) && (c < 51)
+      if c == 0
+        alert = "Invalid input. "
+      else if c > 51
+            alert = "50 character limit.  "
+          end
+      end # if d
+    end  # until customer
+    return customerName
+  end # def get_customer_name
+  # Method for getting the business opportunity information.
+  def get_business_opportunity
+    fromUtils2 = Utility.new
+    business = false
+    alert = ""
+    until business == true
+      fromUtils2.display_logo_banner(1)
+      puts "#{alert}Provide a short description of this business opportunity:"
+      businessOpportunity = gets.strip.chomp    #Blank spaces stripped at input.
+      # Check customer name is no longer than 50 characters and not blank.
+      c = businessOpportunity.length
+      business = (c > 0) && (c < 51)
+      if c == 0
+        alert = "Invalid input. "
+      else if c > 51
+            alert = "50 character limit.  "
+          end
+      end # if d
+    end  # until business
+    return businessOpportunity
+  end # def get_business_opportunity
+
+  # Quote line methods.#
+  # Method for creating new quote lines.
   def create_quote_line
       # A new object is created called "fromProducts" from the "Product" class.
       fromProducts = Product.new
@@ -132,109 +184,68 @@ class Quote
       end # while newQuoteLine
       return @quotes
   end # def create_quote_line #
-  # This method is used for deleting a quote line.#
+  # This method is used for deleting a quote line.
   def delete_quote_line
-        error2 = ""
+    error2 = ""
+    del = false
+    until del == true
+      error1 = ""
+      del2 = false
+      until del2 == true   
+        self.display_quote_line(@quotes)
+        puts "#{error1}#{error2}Which quote line would you like to delete?"
+        lineID = gets.chomp
+        #Check lineID is within range of products. 
+        #Range tested with value equivalence analysis.
+        n = lineID.to_i
+        del2 = (n >= 1) && (n <= @quotes.length)
+        error1 = "\"#{lineID}\" is not an option.  "
+      end # until del2
+      self.display_quote_line(@quotes)
+      puts "#{error2}Are you sure you want to delete line \"#{lineID}\"?    1 (No)  2 (Yes)"
+      sure = gets.to_i
+      if (sure > 0) and (sure < 3)
+        case sure
+          when 2
+            n = lineID.to_i - 1
+            @quotes.delete(@quotes[n])
+            del = true
+          when 1
+            del = true
+        end 
+      else
+        error2 = "Invalid input. "
         del = false
-        until del == true
-          error1 = ""
-          del2 = false
-          until del2 == true   
-            self.display_quote_line(@quotes)
-            puts "#{error1}#{error2}Which quote line would you like to delete?"
-            lineID = gets.chomp
-            #Check lineID is within range of products. 
-            #Range tested with value equivalence analysis.
-            n = lineID.to_i
-            del2 = (n >= 1) && (n <= @quotes.length)
-            error1 = "\"#{lineID}\" is not an option.  "
-          end # until del2
-          self.display_quote_line(@quotes)
-          puts "#{error2}Are you sure you want to delete line \"#{lineID}\"?    1 (No)  2 (Yes)"
-          sure = gets.to_i
-          if (sure > 0) and (sure < 3)
-            case sure
-              when 2
-                n = lineID.to_i - 1
-                @quotes.delete(@quotes[n])
-                del = true
-              when 1
-                del = true
-            end 
-          else
-            error2 = "Invalid input. "
-            del = false
-          end # if sure
-        end  # until del
-      end # def delete_quote_line
-  #This method displays the newly added quote lines.
+      end # if sure
+    end  # until del
+  end # def delete_quote_line
+# This method displays the newly added quote lines.
   def display_quote_line(quoteTable)
-        puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts
-        puts "-"*80
-        header = "Selections"
-        puts "|#{header.center(78)}|"
-        puts "-"*80
-        puts "|    Device     |Quantity|       Product Plan      | Price/Unit|     Amount    |"
-        puts "-"*80
-        x = quoteTable # x is just a local variable to ease up typing
-        for i in 0...x.count
-          id = i.next; dv = x[i][0]; qt = x[i][1]; prod = x[i][2]; sla = x[i][3]; pu = x[i][5];
-          plan = "#{prod},#{sla}";   dol1 = "$ "; dol2 = "$ "
-          # Amount is quantity(converted to integer) x price/unit(converted to float).
-          amount = qt.to_i * pu.to_f
-          # Round amount to 2 decimal places, convert back to string, and add $ for print.
-          am = dol2 << amount.round(2).to_s
-          puts "|#{id.to_s.rjust(2)}| #{dv.ljust(12)}|#{qt.center(6)}| #{plan.ljust(25)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"  
-        end
-        puts "-"*80
-        puts; puts "Hello, #{$userName}"; puts ; puts
-      end
-
-  # Method for getting the customer's name.
-  def get_customer_name
-    fromUtils2 = Utility.new
-    customer = false
-    alert = ""
-    until customer == true
-      fromUtils2.display_logo_banner(1)
-      puts "#{alert}Please provide the customer's name:"
-      customerName = gets.strip.chomp    #Blank spaces stripped at input.
-      # Check customer name is no longer than 50 characters and not blank.
-      c = customerName.length
-      customer = (c > 0) && (c < 51)
-      if c == 0
-        alert = "Invalid input. "
-      else if c > 51
-            alert = "50 character limit.  "
-          end
-      end # if d
-    end  # until customer
-  end # def get_customer_name
-  # Method for getting the business opportunity information.
-  def get_business_opportunity
-    fromUtils2 = Utility.new
-    business = false
-    alert = ""
-    until business == true
-      fromUtils2.display_logo_banner(1)
-      puts "#{alert}Provide a short description of this business opportunity:"
-      businessOpportunity = gets.strip.chomp    #Blank spaces stripped at input.
-      # Check customer name is no longer than 50 characters and not blank.
-      c = businessOpportunity.length
-      business = (c > 0) && (c < 51)
-      if c == 0
-        alert = "Invalid input. "
-      else if c > 51
-            alert = "50 character limit.  "
-          end
-      end # if d
-    end  # until business
-  end # def get_business_opportunity
+    puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts;puts
+    puts "-"*80
+    header = "Selections"
+    puts "|#{header.center(78)}|"
+    puts "-"*80
+    puts "|    Device     |Quantity|       Product Plan      | Price/Unit|     Amount    |"
+    puts "-"*80
+    x = quoteTable # x is just a local variable to ease up typing
+    for i in 0...x.count
+      id = i.next; dv = x[i][0]; qt = x[i][1]; prod = x[i][2]; sla = x[i][3]; pu = x[i][5];
+      plan = "#{prod},#{sla}";   dol1 = "$ "; dol2 = "$ "
+      # Amount is quantity(converted to integer) x price/unit(converted to float).
+      amount = qt.to_i * pu.to_f
+      # Round amount to 2 decimal places, convert back to string, and add $ for print.
+      am = dol2 << amount.round(2).to_s
+      puts "|#{id.to_s.rjust(2)}| #{dv.ljust(12)}|#{qt.center(6)}| #{plan.ljust(25)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"  
+    end
+    puts "-"*80
+    puts; puts "Hello, #{$userName}"; puts ; puts
+  end
 
 # Calculations
-  # These group of methods get necessary values from the data entered by the user to 
-  # the @quotes array, which contains all the recently entered data arranged in arrays   
-  # of quote lines.
+# These group of methods get necessary values from the data entered by the user to 
+# the @quotes array, which contains all the recently entered data arranged in arrays   
+# of quote lines.  *These methods do a calculation and return a specific value.
 
   # Method for calculating the subtotal price of the selected products,
   # which is the total of product prices without subtracting the discount.
@@ -249,7 +260,7 @@ class Quote
   end
   # Method for calculating the discount.  It checks if the total weight of the quote lines 
   # matches any of the thresholds and gets the specified discount percentage for the match.
-    # First we find out the total weight of all the devices
+  # First we find out the total weight of all the devices.
   def calculate_total_weight
     x = @quotes
     totalWeight = 0
@@ -288,13 +299,79 @@ class Quote
     percent = (self.calculate_discount_percent).to_f / 100
     # Finally the subtotal price is multiplied by percent to get the total price.
     discountPrice = self.calculate_subtotal_price * percent
-    return discountPrice#.round(2) # This returns a float rounded to 2 decimal places
+    return discountPrice.round(2) # This returns a float rounded to 2 decimal places
   end
   # Finally, we subtract the discount amount from the subtotal price to get the final price.
   def calculate_total_price
     totalPrice = self.calculate_subtotal_price - self.calculate_discount_price
     return totalPrice.round(2)
   end   
+  # This method puts together all the calculation methods in one integraded method to get 
+  # the total price of the quote lines in the @quotes array.
+  def integrate_calculation_methods
+    self.calculate_subtotal_price
+    self.calculate_total_weight
+    self.calculate_discount_percent
+    self.calculate_discount_price
+    self.calculate_total_price
+  end
+
+# Quote Report Form
+  #Method for displaying the final report with all the information specified by the user
+  #and the calculations for the total price.
+  def display_quote_report(quoteTable,customerName,businessOpportunity)
+        puts;puts;puts;puts;puts;puts
+        puts "-"*80
+        puts
+        puts "MSA".ljust(80)
+        puts "Sales Quote".center(80)
+        puts
+        puts "Date: #{Time.now.strftime("%d/%m/%Y")}".rjust(80)
+        puts "Expiration Date: #{self.display_next_month}".rjust(80)
+        puts "Salesperson: #{$userName}".rjust(80)
+        puts "To: #{customerName}".ljust(80)
+        puts "Business Opportunity: #{businessOpportunity}".ljust(80)
+        puts
+        puts "-"*80
+        puts "|    Device   |Quantity|        Product Plan       | Price/Unit|     Amount    |"
+        puts "-"*80
+        x = quoteTable # x is just a local variable to ease up typing
+        for i in 0...x.count
+          id = i.next; dv = x[i][0]; qt = x[i][1]; prod = x[i][2]; sla = x[i][3]; pu = x[i][5];
+          plan = "#{prod},#{sla}";   dol1 = "$ "; dol2 = "$ "
+          # Amount is quantity(converted to integer) x price/unit(converted to float).
+          amount = qt.to_i * pu.to_f
+          # Round amount to 2 decimal places, convert back to string, and add $ for print.
+          am = dol2 << amount.round(2).to_s
+          # |#{id.to_s.rjust(2)}
+          puts "| #{dv.ljust(15)}|#{qt.center(6)}| #{plan.ljust(27)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"
+        end
+        puts "|              |      |                            |           |               |"
+        if self.calculate_discount_percent == "0%"
+          puts "|              |      |                            |           |               |"
+        else 
+          di = self.calculate_discount_percent<<" discount"
+          dp = "-$ "<<self.calculate_discount_price.to_s
+          puts "|              |      | #{di.center(27)}|           |#{dp} |"
+        end
+        puts "-"*80
+        puts "Subtotal |               |".rjust(80)
+        puts "Sales Tax |               |".rjust(80)
+        puts "-----------------".rjust(80)
+        puts "Total |               |".rjust(80)
+        puts "-----------------".rjust(80)
+    
+  end
+
+# Miscellaneous
+  def display_next_month
+    currentDate = Time.now.strftime("%d/%m/%Y")
+    nextMonth = currentDate[3,2].succ
+    if nextMonth == "13"
+      nextMonth = "01"
+    end
+    nextDate = currentDate[0,3]<<nextMonth<<currentDate[5,5]
+  end
 
 =begin
 # Calculations

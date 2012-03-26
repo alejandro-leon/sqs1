@@ -26,10 +26,7 @@ class Stub
           tentativeDiscountWeight = x[i][0].to_i  # this will sort out the highest match.
           discountIndex = i # With this we can find which array contains the % we want.
         end
-#      else finalDiscountPercent = "0%"
       end
-#    @finalDiscountPercent = x[discountIndex][1]  # Percentage is the 2nd element in each array
-#    return @finalDiscountPercent # This returns a string
     end
     # If there are no matches, tentativeDiscount remains = 0 and no discount is given.
     if tentativeDiscountWeight == 0
@@ -63,7 +60,7 @@ class Stub
 =begin
 =end
   def calculate_total_price(subtotal_price,discount_price)
-    totalPrice = subtotal_price - discount_price
+    totalPrice = subtotal_price - discount_price 
   end    
 
 end
