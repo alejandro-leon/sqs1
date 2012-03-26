@@ -24,6 +24,7 @@ class StubIntegration
     self.calculate_discount_percent
     self.calculate_discount_price
     self.calculate_total_price
+    self.calculate_tax_price
   end
 
 # Calculations
@@ -40,22 +41,22 @@ class StubIntegration
       for i in 0...x.count
       subtotalPrice += (x[i][1].to_i * x[i][5].to_f)#.round(2)
       end
-    subtotalPrice # Returns subtotalPrice as a float
+    return subtotalPrice # Returns subtotalPrice as a float
   end
-  # Method for calculating the discount.  It checks if the total weight of the quote lines 
+  # Method to help calculate the discount.  It checks if the total weight of the quote lines 
   # matches any of the thresholds and gets the specified discount percentage for the match.
-    # First we find out the total weight of all the devices
+  # First we find out the total weight of all the devices
   def calculate_total_weight
     x = @quotes
     totalWeight = 0
     for i in 0...x.count
       # Multiply the 5th element (weight) to the 2nd element (quantity) to get the total
-      # of each quote line and then add them together.
+      # of each quote line and then add them together one by one.
       totalWeight += (x[i][4].to_i * x[i][1].to_i)
     end
     return totalWeight # This returns an integer
   end
-  # Then we find out the discount to the resulting total weight.
+  # Then find out the discount to the resulting total weight.
   def calculate_discount_percent
     fromDiscounts = Discount.new
     w = self.calculate_total_weight
@@ -76,18 +77,22 @@ class StubIntegration
     end
     return @finalDiscountPercent # This returns a string
   end
-  # After knowing the percentage, we can figure out what percentage that percentage is
-  # in currency amount.
+  # After finding the percentage, percentage is converted to its currency value.
   def calculate_discount_price
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (self.calculate_discount_percent).to_f / 100
     # Finally the subtotal price is multiplied by percent to get the total price.
     discountPrice = self.calculate_subtotal_price * percent
-    return discountPrice#.round(2) # This returns a float rounded to 2 decimal places
+    return discountPrice #round(2) # This returns a float
   end
-  # Finally, we subtract the discount amount from the subtotal price to get the final price.
+  # Later, the discount amount is subtracted from the subtotal price to get the total.
   def calculate_total_price
     totalPrice = self.calculate_subtotal_price - self.calculate_discount_price
-    return totalPrice.round(2)
-  end   
+    return totalPrice.round(2) # This returns a float
+  end
+  # Figures out the sales tax, simple multiply and divide.
+  def calculate_tax_price
+    tax = 13 * self.calculate_total_price / 100
+    return tax # Returns float
+  end
 end

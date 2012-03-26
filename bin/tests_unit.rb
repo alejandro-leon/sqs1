@@ -1,7 +1,7 @@
 require "./stubs_unit"
 require "test/unit"
 class Check < Test::Unit::TestCase
-
+=begin
 # The tests in this file will test every unit of the calculation methods in the
 # "stubs_unit.rb" file individually.
 # Note that the tests results show that the tests did not fail with the data given,
@@ -144,5 +144,5 @@ Finished in 0.096000 seconds.
 
 Test run options: --seed 42460
 =end
-
+ 
 end

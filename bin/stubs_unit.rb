@@ -2,7 +2,7 @@ require "./discounts"
 class Stub
 
 =begin
-=end
+ =end
   def calculate_total_weight(quotesTable)  # Sample quotes table.
     x = quotesTable
     totalWeight = 0
@@ -14,7 +14,7 @@ class Stub
     return totalWeight # This returns an integer
   end
 =begin 
-=end
+ =end
   def calculate_discount_percent(w)  # w is the sample weight.
     fromDiscounts = Discount.new
     #w = self.calculate_total_weight
@@ -37,7 +37,7 @@ class Stub
   end
 
 =begin
-=end
+ =end
   def calculate_subtotal_price(productTable)
     x = productTable
     subtotalPrice = 0
@@ -48,13 +48,13 @@ class Stub
     subtotalPrice
   end
 =begin
-=end
+ =end
   def calculate_discount_price(discount_percent,subtotal_price)
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (discount_percent).to_f / 100
     # Finally the subtotal price is multiplied by percent to get the total price.
     discountPrice = subtotal_price * percent
-    return discountPrice.round(2) # This returns a float rounded to 2 decimal places
+    return discountPrice # This returns a float
   end
 
 =begin
