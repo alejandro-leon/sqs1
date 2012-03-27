@@ -2,6 +2,7 @@ require "./stubs_unit"
 require "test/unit"
 class Check < Test::Unit::TestCase
 =begin
+=end
 # The tests in this file will test every unit of the calculation methods in the
 # "stubs_unit.rb" file individually.
 # Note that the tests results show that the tests did not fail with the data given,
@@ -13,7 +14,7 @@ class Check < Test::Unit::TestCase
 # The expected_value should be replaced with incorrect values to see how the test fails
 # before entering the correct values.
 
-# Test for testing the calculate_subtotal_price module.
+# The following test is for testing the calculate_subtotal_price module.
 # At first expected_value was tested with the number 24 (integer), this gave a failure.
 # The second try, the integer 24 was replaced by 24.0 (float). Test passed
   def test_subtotal_price
@@ -23,7 +24,7 @@ class Check < Test::Unit::TestCase
     # The price of each product is in the sixth.
     # Should be (2*6) + (2*6) = 24.0
   end  
-=begin  
+=begin
 #This is a  sample test result when expected_value was 24 (integer):
   Loaded suite tests
   Started
@@ -41,7 +42,7 @@ class Check < Test::Unit::TestCase
   
   1 tests, 1 assertions, 1 failures, 0 errors 
   
-# Here is the same test with expected_value being 24.0 (which is a float):
+# This result is from the same test; expected_value changed to 24.0 (which is a float):
   Loaded suite tests
   Started
   .
@@ -53,11 +54,11 @@ class Check < Test::Unit::TestCase
 =end
 
   def test_calculate_total_weight
-    x = [[1, 3, 3, 4, 2, 6], [1, 2, 3, 4, 3, 6]] #sample array used as productTable
+    x = [[1, 3, 3, 4, 2, 6], [1, 2, 3, 4, 3, 6]] #sample array used as product Table.
     assert_equal(12, Stub.new.calculate_total_weight(x))
   end
 =begin
-Results
+Results:
   Loaded suite tests_unit
   Started
   .
@@ -134,15 +135,15 @@ Results:
     assert_equal(23.52, Stub.new.calculate_total_price(24.0,0.48))
   end
 =begin
-Results:
-Loaded suite tests
-Started
-.
-Finished in 0.096000 seconds.
-
-1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
-
-Test run options: --seed 42460
+  Results:
+  Loaded suite tests
+  Started
+  .
+  Finished in 0.096000 seconds.
+  
+  1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+  
+  Test run options: --seed 42460
 =end
  
 end

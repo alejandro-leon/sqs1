@@ -7,7 +7,7 @@ class User
   # information entered in the users.txt file by the manager or administrator.
   def initialize #load_user_list
     # This specifies a file to be read for input data about users.
-    usersFile = "./users.txt"    
+    usersFile = "./data/users.txt"    
     # Reads each line in the users.txt file and creates an array of strings in the instance
     # variable @user.
     @user = IO.readlines(usersFile)

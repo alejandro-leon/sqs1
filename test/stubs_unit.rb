@@ -1,8 +1,14 @@
-require "./discounts"
-class Stub
+require "../data/discounts"
 
+# This file contains a copy of the methods containing different calculation
+# algorithms for the program.
+# Each method here was modified to be tested individually with the tests included
+# in the accompanying test file "tests.unit.rb" runs with the Unit::Test library.
+# Some of these methods require access to the discounts.txt file for data.
+
+class Stub
 =begin
- =end
+=end
   def calculate_total_weight(quotesTable)  # Sample quotes table.
     x = quotesTable
     totalWeight = 0
@@ -14,7 +20,7 @@ class Stub
     return totalWeight # This returns an integer
   end
 =begin 
- =end
+=end
   def calculate_discount_percent(w)  # w is the sample weight.
     fromDiscounts = Discount.new
     #w = self.calculate_total_weight
@@ -37,7 +43,7 @@ class Stub
   end
 
 =begin
- =end
+=end
   def calculate_subtotal_price(productTable)
     x = productTable
     subtotalPrice = 0
@@ -48,7 +54,7 @@ class Stub
     subtotalPrice
   end
 =begin
- =end
+=end
   def calculate_discount_price(discount_percent,subtotal_price)
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (discount_percent).to_f / 100

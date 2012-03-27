@@ -8,7 +8,7 @@ class Product
   # information entered in the products.txt file by the manager or administrator. 
   def initialize #load_product_list
     # This specifies a file to be read for input data about products.
-    productsFile = "./products.txt"    
+    productsFile = "./data/products.txt"    
     # Reads each line in the products.txt file and creates an array of strings in the instance
     # variable @product.
     @product = IO.readlines(productsFile)

@@ -11,63 +11,56 @@ class Quote
 # accessing a database to retrieve product information.
 
 #Actions
-  # Method for creating a new Quote Report
+  # Method for creating a new sales Quote.
   def initialize # Main method in "Quote" class.
     fromUtils2 = Utility.new
-    newQuote = true
-    while newQuote == true
-      # Option selection  menu for the Quote Report
-      option1 = 1
-      error = ""
-      while option1 == 1
-        fromUtils2.display_logo_banner(1)
-        puts "#{error}Would you like to:"
-        puts " (1) Create new Quote           (2) Quit "
-        option1 = gets.to_i
-        if (option1 > 0) && (option1 < 3)
-          case option1
-          when 1
-            self.create_new_quote # Calls in class method for creating a new Quote.
-            # Menu for saving new quote report. This displays the final sales Quote and gives 
-            # the user the option to save the results into a file.
-            loop = true
-            error = ""
-            until loop == false
-              $salesQuote # Displays the new sales quote.
-              puts "#{error}Would you like to:  (1) Save Quote     (2) Discard"
-              option2 = gets.to_i
-              if (option2 > 0) && (option2 < 3)
-                case option2
-                when 1
-                  returnValue = self.save_new_quote
-                  if returnValue == true
-                    loop = false
-                    error = ""
-                  else
-                    loop = true
-                    error = ""
-                  end
-                when 2
+    # Option selection  menu for the sales Quote.
+    option1 = 1
+    error = ""
+    while option1 == 1
+      fromUtils2.display_logo_banner(1)
+      puts "#{error}Would you like to:"
+      puts " (1) Create new Quote           (2) Quit "
+      option1 = gets.to_i
+      if (option1 > 0) && (option1 < 3)
+        case option1
+        when 1
+          self.create_new_quote # Calls in class method for creating a new Quote.
+          # Menu for saving new quote report. This displays the final sales Quote and gives 
+          # the user the option to save the results into a file.
+          loop = true
+          error = ""
+          while loop == true
+            $salesQuote # Displays the new sales quote.
+            puts "#{error}Would you like to:  (1) Save Quote    (2) Discard/Continue"
+            option2 = gets.to_i
+            if (option2 > 0) && (option2 < 3)
+              case option2
+              when 1
+                returnValue = self.save_new_quote
+                if returnValue == 1
                   loop = false
+                 error = ""
+                else
+                  loop = true
+                  error = ""
                 end
-              else
-                error = "Invalid input. "
-                loop = true
+              when 2
+                loop = false
               end
-            end # while loop Menu
-            newQuote = true
-          when 2
-            newQuote = false
-            option1 = 2
-          end
-        else
-          error = "Invalid input.  "
-          option1 = 1
-        end # if
-      end # while option1 menu
-    end # while newQuote
-
-  end # End newQuote
+            else
+              error = "Invalid input. "
+            end
+          end # while loop Menu
+        when 2
+          option1 = 2
+        end
+      else
+        error = "Invalid input.  "
+        option1 = 1
+      end # if
+    end # while option1 menu
+  end # End new sales Quote method
   # Method that calls the methods get_customer_name, get_business_opportunity,
   # create_quote_line, display_sales_quote,and all the calculation methods to
   # create the final sales quote.
@@ -162,18 +155,18 @@ class Quote
         fromUtils2.display_logo_banner(1) 
         puts "#{alert2}Please provide the name of the device to safeguard:"
         deviceName = gets.strip.chomp    #Blank spaces stripped at input.
-        # Check device name is no longer than 12 characters and not blank.
+        # Check device name is no longer than 14 characters and not blank.
         d = deviceName.length
-        device = (d > 0) && (d < 13)
+        device = (d > 0) && (d < 15)
         if d == 0
           alert2 = "Invalid input. "
-        else if d > 13
-              alert2 = "12 character limit.  "
+        else if d > 14
+              alert2 = "14 character limit.  "
             end
         end
       end # until device
       # User is prompted for the number of similar devices requiring the same coverage.
-      msg = "Provide the quantity of \"#{deviceName}\" devices to safeguard under one product plan:"
+      msg = "Quantity of \"#{deviceName}\" devices to safeguard under one product plan:"
       quantity = false
       until quantity == true
         fromUtils2.display_logo_banner(1) 
@@ -183,11 +176,11 @@ class Quote
         # Check quantity is integer within defined range. Tested with value equivalence analysis.
         q = deviceQuantity.to_i
         quantity = (q > 0) && (q < 100000)
-        msg = "\"#{deviceQuantity}\" 99,999 limit, please enter a valid device quantity:"
+        msg = "\"#{deviceQuantity}\" Invalid input. Please enter a valid device quantity:"
       end
       # The product list is displayed through the display_product_list method and the user is 
       # prompted to select a service product for the entered device(s).
-      msg2 = "Please select the ID of the product plan to safeguard the \"#{deviceName}\" device:"
+      msg2 = "Select the ID of the product plan to safeguard the \"#{deviceName}\" device:"
       id = false
       until id == true
         fromProducts.display_product_list
@@ -271,7 +264,7 @@ class Quote
     header = "Selections"
     puts "|#{header.center(78)}|"
     puts "-"*80
-    puts "|    Device     |Quantity|       Product Plan      | Price/Unit|     Amount    |"
+    puts "|     Device     |Quantity|      Product Plan      | Price/Unit|     Amount    |"
     puts "-"*80
     x = quoteTable # x is just a local variable to ease up typing
     for i in 0...x.count
@@ -281,7 +274,7 @@ class Quote
       amount = qt.to_i * pu.to_f
       # Round amount to 2 decimal places, convert back to string, and add $ for print.
       am = "$ %6.2f"%amount
-      puts "|#{id.to_s.rjust(2)}| #{dv.ljust(12)}|#{qt.center(6)}| #{plan.ljust(25)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"  
+      puts "|#{id.to_s.ljust(2)}|#{dv.ljust(14)}|#{qt.center(6)}| #{plan.ljust(24)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"  
     end
     puts "-"*80
     puts; puts "Hello, #{$userName}"; puts ; puts
@@ -375,7 +368,7 @@ class Quote
         puts "Business Opportunity: #{businessOpportunity}".ljust(80)
         puts
         puts "-"*80
-        puts "|    Device   |Quantity|        Product Plan       | Price/Unit|     Amount    |"
+        puts "|    Device     |Quantity|      Product Plan       | Price/Unit|     Amount    |"
         puts "-"*80
         x = quoteLines # x is just a local variable to ease up typing
         for i in 0...x.count
@@ -385,15 +378,15 @@ class Quote
           amount = qt.to_i * pu.to_f
           # Round amount to 2 decimal places, convert back to string, and add $ for print.
           am = "$ %6.2f"%amount
-          puts "| #{dv.ljust(13)}|#{qt.center(6)}| #{plan.ljust(27)}|#{(dol<<pu).rjust(10)} |#{am.rjust(14)} |"
+          puts "| #{dv.ljust(15)}|#{qt.center(6)}| #{plan.ljust(25)}|#{(dol<<pu).rjust(10)} |#{am.rjust(14)} |"
         end
-        puts "|              |      |                            |           |               |"
+        puts "|                |      |                          |           |               |"
         if self.calculate_discount_percent == "0%"
-          puts "|              |      |                            |           |               |"
+          puts "|                |      |                          |           |               |"
         else 
           di = self.calculate_discount_percent<<" discount"
           dp = self.calculate_discount_price
-          puts "|              |      | #{di.center(27)}|           |#{("-$ "<<dp.to_s).rjust(14)} |"
+          puts "|                |      | #{di.center(25)}|           |#{("-$ "<<dp.to_s).rjust(14)} |"
         end
         puts "-"*80
         tp = self.calculate_total_price
@@ -426,7 +419,7 @@ class Quote
     loop = true
     while loop == true
       fromUtils2.display_logo_banner(1)
-      puts"Save the new Quote as:"
+      puts"Name the new file to save:"
       newFile = gets.chomp
       newFile = newFile.partition(".")
       newFile = newFile[0]<<".txt"
@@ -442,20 +435,19 @@ class Quote
           File.open(newFile,"w") do |f|
           f.write $salesQuote
           fromUtils2.display_logo_banner(1)
-          puts "Save was successful !"
+          puts "Save was successful!"
           sleep 2
-          returnValue = true
+          returnValue = 1
           end
         when 2
           loop = false
           fromUtils2.display_logo_banner(1)
           puts "Save was cancelled!"
-          returnValue = false
           sleep 2
+          returnValue = 2
         end
       else
         error = "Invalid input. "
-        loop = true
       end
     end
     return returnValue

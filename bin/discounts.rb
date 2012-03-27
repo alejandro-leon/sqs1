@@ -2,7 +2,7 @@
 class Discount
   # Method that retrieves the discount information from the discounts.txt file
   def initialize #load_discount_list
-  discountsFile = "./discounts.txt" # access the external file
+  discountsFile = "./data/discounts.txt" # access the external file
   @discount = IO.readlines(discountsFile) # reads each line and saves them into an array
   @discount.delete(@discount[0]) # eliminates the first two lines which are comments.
   @discount.delete(@discount[0])

@@ -2,16 +2,18 @@ require "./stubs_integration"
 require "test/unit"
 class Check < Test::Unit::TestCase
   
-# The tests in this file will test the integration of the calculation methods in the
+# The tests in this file test the integration of the calculation methods found in the
 # "stubs_integration.rb" file.
-# Note that the tests results show that the tests did not fail with the data given,
-# The expected value of the tests was modified to incorrect date to see how the test failed.
-# A sample of the failed results is given at the end of the test file.
+# Note that the tests results show that the tests passed with the correct expected data given,
+# The expected value of the tests was modified to incorrect data to see how the tests failed.
+# Equivalence partitioning and boundary value analysis were used to choose the test data.
+# A sample of the some results is given after each test module.
+# A sample of failed results is given at the end of the test file.
 
 
    # This tests the integration of the two calculation methods that figure out the
-   #discount percent by sending a sample array to confirm equality to the string 
-   # containing the % sign.
+   #discount percent by sending a sample array to confirm equality of the expected data
+   # which is the string containing the % sign.
   def test_integrate_calculation_methods_1a
     x = [["a", "3", "x", "p", "2", "6"], ["b", "2", "y", "q", "3", "6"]]
     assert_equal("2%", StubIntegration.new.integrate_calculation_methods_1(x))
