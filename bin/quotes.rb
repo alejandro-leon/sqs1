@@ -17,15 +17,15 @@ class Quote
     newQuote = true
     while newQuote == true
       # Option selection  menu for the Quote Report
-      option = 1
+      option1 = 1
       error = ""
-      while option == 1
+      while option1 == 1
         fromUtils2.display_logo_banner(1)
         puts "#{error}Would you like to:"
         puts " (1) Create new Quote           (2) Quit "
         option1 = gets.to_i
-        if (option > 0) && (option < 3)
-          case option
+        if (option1 > 0) && (option1 < 3)
+          case option1
           when 1
             self.create_new_quote # Calls in class method for creating a new Quote.
             # Menu for saving new quote report. This displays the final sales Quote and gives 
@@ -58,11 +58,11 @@ class Quote
             newQuote = true
           when 2
             newQuote = false
-            option = 2
+            option1 = 2
           end
         else
           error = "Invalid input.  "
-          option = 1
+          option1 = 1
         end # if
       end # while option1 menu
     end # while newQuote
@@ -426,7 +426,7 @@ class Quote
     loop = true
     while loop == true
       fromUtils2.display_logo_banner(1)
-      puts"Save the new Sales Quote as:"
+      puts"Save the new Quote as:"
       newFile = gets.chomp
       newFile = newFile.partition(".")
       newFile = newFile[0]<<".txt"
@@ -442,7 +442,7 @@ class Quote
           File.open(newFile,"w") do |f|
           f.write $salesQuote
           fromUtils2.display_logo_banner(1)
-          puts "Save was successfully!"
+          puts "Save was successful !"
           sleep 2
           returnValue = true
           end

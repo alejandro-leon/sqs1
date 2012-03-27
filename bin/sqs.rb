@@ -47,11 +47,9 @@ fromUtils.display_logo_banner(1)
 puts "You have logged in successfully!"
 sleep 2.6
 ################################# newQuoteReport starts ####################################
-# An from the Quote class is created here and opens a module for creating quotes.
+# A new object from the Quote class is created here and opens a module for creating quotes.
 startQuoting = Quote.new
 
 ################################### newQuoteReport ends #######################################
-
-puts "done"
-# A report is displayed with all the information the user entered.
+fromUtils.display_logo_banner(4)
 system "exit"
