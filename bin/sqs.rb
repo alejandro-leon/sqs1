@@ -45,9 +45,9 @@ $userName = fromAuthentications.get_full_name
 #fromUtils.send_current_user(@userName)
 fromUtils.display_logo_banner(1)
 puts "You have logged in successfully!"
-#sleep 2.63#######################################################################################################
+sleep 2.6
 ################################# newQuoteReport starts ####################################
-# Another object is created here.  This one is from the Quote class for creating quotes
+# An from the Quote class is created here and opens a module for creating quotes.
 startQuoting = Quote.new
 
 ################################### newQuoteReport ends #######################################

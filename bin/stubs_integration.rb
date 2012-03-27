@@ -6,19 +6,19 @@ require "./discounts"
 class StubIntegration
 
 # This method integrates the calculation methods related to figuring out the
-# discount price from the sample @quotes array.
+# discount price from the sample @quoteLines array.
   def integrate_calculation_methods_1(quotesArray)
-    @quotes = quotesArray
+    @quoteLines = quotesArray
     self.calculate_total_weight
     self.calculate_discount_percent
   end
   
 # This is the main method in this class and it will run all the following methods
-# secuentially.  The method will receive a sample @quotes array as parameters and
+# secuentially.  The method will receive a sample @quoteLines array as parameters and
 # check the final result for equality after going through all the methods in 
 # this class.
-  def integrate_calculation_methods_2(quotesArray)
-    @quotes = quotesArray
+  def integrate_calculation_methods_2(quoteLinesArray)
+    @quoteLines = quoteLinesArray
     self.calculate_subtotal_price
     self.calculate_total_weight
     self.calculate_discount_percent
@@ -29,13 +29,13 @@ class StubIntegration
 
 # Calculations
   # These group of methods get necessary values from the data entered by the user to 
-  # the @quotes array, which contains all the recently entered data arranged in arrays   
+  # the @quoteLines array, which contains all the recently entered data arranged in arrays   
   # of quote lines.
 
   # Method for calculating the subtotal price of the selected products,
   # which is the total of product prices without subtracting the discount.
   def calculate_subtotal_price
-    x = @quotes
+    x = @quoteLines
     subtotalPrice = 0
   # For each line in the table, subtotalPrice is sum of all the (quantity * price) amounts.
       for i in 0...x.count
@@ -47,7 +47,7 @@ class StubIntegration
   # matches any of the thresholds and gets the specified discount percentage for the match.
   # First we find out the total weight of all the devices
   def calculate_total_weight
-    x = @quotes
+    x = @quoteLines
     totalWeight = 0
     for i in 0...x.count
       # Multiply the 5th element (weight) to the 2nd element (quantity) to get the total
