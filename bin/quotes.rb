@@ -106,7 +106,7 @@ class Quote
     $stdout = output
     self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
     puts; puts; puts "Thank you for your business!".center(80)
-    puts; puts; puts; puts "-"*80.center(80); puts; puts; puts
+    puts; puts; puts; puts "-"*80; puts; puts; puts
     
     
     output.close
