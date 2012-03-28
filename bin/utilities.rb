@@ -1,11 +1,8 @@
-# The "Utility" class handles miscelaneous tasks.
+# The "Utility" class handles miscelaneous tasks.  In this case, the banner.
 class Utility
 
-#Actions
-#  def send_current_user(username)
-#    @currentUser = username
-#  end
-#Forms
+  #  software version
+  VERSION = "0.0.1"
 
   # Method for displaying the banner
   def display_logo_banner(n)
@@ -30,9 +27,9 @@ class Utility
     puts"                                QQQQQQQ                  ".center(80)
     case n
       when 1
-        puts "Hello, #{$userName}"; puts #; puts
+        puts "Hello, #{$userName.ljust(52)} #{VERSION.ljust(21)}"; puts #; puts
       when 2
-        puts; puts; puts
+        puts "#{VERSION.rjust(65)}"; puts; puts
       when 3
     puts"/ \\ / \\ / \\ /  \\ / \\ / \\ / \\     / \\ / \\       / \\ / \\ / \\    ".center(80) 
     puts"| W | E | L | C  | O | M | E |   | T | O |     | T | H | E |   ".center(80)
@@ -41,7 +38,8 @@ class Utility
     puts" \\ / \\ / \\ / \\ / \\ /  \\ / \\ / \\ / \\ / \\ / \\ / \\ /   \\ / \\ / \\ / \\ / \\ / \\ /".center(80)
     puts "Press \"Enter\" to start"; gets
       when 4
-        puts "Bye, #{$userName}"; puts; puts "Thank you for using SQS!".center(80); puts
+        puts "Bye, #{$userName.ljust(54)} #{VERSION(21)}"; puts; 
+        puts "Thank you for using SQS!".center(80); puts
     end
   end
 end
