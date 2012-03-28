@@ -1,5 +1,0 @@
-FullName,Username,Password (no commas allowed in any of the fields)
-John Doe,jdoe,secret123  <===This is a sample input, do not remove.
-Luis Cerdas,lcerdas,lc3rdas
-Marianela Calvo,mcalvo,mcalv0
-',','

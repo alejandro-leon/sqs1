@@ -1,0 +1,5 @@
+Weight(max3char),Discount%   
+25,10%  <===This is an sample input, do not remove. No commas allowed in any field.
+12,2%
+36,10%
+24,5%
