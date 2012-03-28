@@ -30,7 +30,7 @@ class Utility
     puts"                                QQQQQQQ                  ".center(80)
     case n
       when 1
-        puts "Hello, #{$userName}"; puts ; puts
+        puts "Hello, #{$userName}"; puts #; puts
       when 2
         puts; puts; puts
       when 3
@@ -41,7 +41,7 @@ class Utility
     puts" \\ / \\ / \\ / \\ / \\ /  \\ / \\ / \\ / \\ / \\ / \\ / \\ /   \\ / \\ / \\ / \\ / \\ / \\ /".center(80)
     puts "Press \"Enter\" to start"; gets
       when 4
-        puts "Bye, #{$userName}"; puts "Thank you for using SQS!".center(80); puts
+        puts "Bye, #{$userName}"; puts; puts "Thank you for using SQS!".center(80); puts
     end
   end
 end

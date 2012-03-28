@@ -1,4 +1,4 @@
-require "../data/discounts"
+require "./data/discounts"
 
 # This file contains a copy of the methods containing different calculation
 # algorithms for the program.

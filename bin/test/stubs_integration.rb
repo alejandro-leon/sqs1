@@ -1,4 +1,4 @@
-require "../data/discounts"
+require "./data/discounts"
 # This class is basicallly an excerpt from the "Quote" class.
 # Its main purpose is to help test the integration of all the stubs involved in the 
 # calculation of the total price from all the quote lines created by the user for

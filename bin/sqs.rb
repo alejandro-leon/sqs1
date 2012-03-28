@@ -44,6 +44,7 @@ fromAuthentications.authenticate
 $userName = fromAuthentications.get_full_name
 #fromUtils.send_current_user(@userName)
 fromUtils.display_logo_banner(1)
+puts ""
 puts "You have logged in successfully!"
 sleep 2.6
 ################################# newQuoteReport starts ####################################

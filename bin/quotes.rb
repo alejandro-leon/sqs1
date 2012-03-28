@@ -1,6 +1,7 @@
 require "./products"
 require "./discounts"
 require "./utilities"
+require "json"
 # This class will help in the business logic and display of quotes by the main application.
 class Quote
 
@@ -30,26 +31,38 @@ class Quote
           # the user the option to save the results into a file.
           loop = true
           error = ""
+          @salesQuote # Displays the new sales quote.
+          puts "Done! Press \"Enter\" for options."
+          gets
+          message = ""
           while loop == true
-            $salesQuote # Displays the new sales quote.
+            fromUtils2.display_logo_banner(1)
+            puts "#{message}"
             puts "#{error}Would you like to:  (1) Save Quote    (2) Discard/Continue"
             option2 = gets.to_i
             if (option2 > 0) && (option2 < 3)
               case option2
               when 1
                 returnValue = self.save_new_quote
-                if returnValue == 1
-                  loop = false
-                 error = ""
-                else
-                  loop = true
+#                if returnValue == 1
+#                  loop = true
                   error = ""
-                end
+#                else
+#                  loop = true
+#                  error = ""
+#                end
               when 2
+                File.delete("./temporary_internal_use.txt")
                 loop = false
               end
             else
               error = "Invalid input. "
+            end
+            case returnValue # Banner for save message.
+            when 1
+              message = "Save was successful!"
+            when 2
+              message = "Save was cancelled!"
             end
           end # while loop Menu
         when 2
@@ -72,7 +85,7 @@ class Quote
     loop = true
     error = ""
     while loop == true
-      self.display_quote_line(@quoteLines)
+      self.display_quote_line(@quoteLines) ; puts
       puts "#{error}Apply sales tax?       (1) Tax      (2) No Tax"
       option = gets.to_i
       if (option > 0) && (option < 3)
@@ -89,8 +102,20 @@ class Quote
         loop = true
       end
     end
-    $salesQuote = self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
-    return $salesQuote # Returns the complete Quote with all the information formatted.
+    # Saves a temp file with the data from the new Quote
+    newFile = "./temporary_internal_use.txt"
+    output = File.open(newFile, "w")
+    $stdout = output
+    self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
+    puts; puts; puts "Thank you for your business!".center(80)
+    puts; puts; puts; puts "-".center(80); puts; puts; puts
+    
+    
+    output.close
+    $stdout = STDOUT
+    
+    @salesQuote = self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
+    return @salesQuote # Returns the complete Quote with all the information formatted.
   end
  
   # Method for getting the customer's name.
@@ -99,7 +124,7 @@ class Quote
     customer = false
     alert = ""
     until customer == true
-      fromUtils2.display_logo_banner(1)
+      fromUtils2.display_logo_banner(1) ; puts
       puts "#{alert}Please provide the customer's name:"
       customerName = gets.strip.chomp    #Blank spaces stripped at input.
       # Check customer name is no longer than 50 characters and not blank.
@@ -120,7 +145,7 @@ class Quote
     business = false
     alert = ""
     until business == true
-      fromUtils2.display_logo_banner(1)
+      fromUtils2.display_logo_banner(1) ; puts
       puts "#{alert}Provide a short description of this business opportunity:"
       businessOpportunity = gets.strip.chomp    #Blank spaces stripped at input.
       # Check customer name is no longer than 50 characters and not blank.
@@ -152,7 +177,7 @@ class Quote
       device = false
       alert2 = ""
       until device == true
-        fromUtils2.display_logo_banner(1) 
+        fromUtils2.display_logo_banner(1) ; puts 
         puts "#{alert2}Please provide the name of the device to safeguard:"
         deviceName = gets.strip.chomp    #Blank spaces stripped at input.
         # Check device name is no longer than 14 characters and not blank.
@@ -169,7 +194,7 @@ class Quote
       msg = "Quantity of \"#{deviceName}\" devices to safeguard under one product plan:"
       quantity = false
       until quantity == true
-        fromUtils2.display_logo_banner(1) 
+        fromUtils2.display_logo_banner(1) ; puts
         puts "#{msg}"
         deviceQuantity = gets.chomp
         deviceQuantity.slice!(",") # Remove any commas entered.
@@ -230,7 +255,7 @@ class Quote
       error1 = ""
       del2 = false
       until del2 == true   
-        self.display_quote_line(@quoteLines)
+        self.display_quote_line(@quoteLines) ; puts
         puts "#{error1}#{error2}Which quote line would you like to delete?"
         lineID = gets.chomp
         #Check lineID is within range of products. 
@@ -239,7 +264,7 @@ class Quote
         del2 = (n >= 1) && (n <= @quoteLines.length)
         error1 = "\"#{lineID}\" is not an option.  "
       end # until del2
-      self.display_quote_line(@quoteLines)
+      self.display_quote_line(@quoteLines) ; puts
       puts "#{error2}Are you sure you want to delete line \"#{lineID}\"?    1 (No)  2 (Yes)"
       sure = gets.to_i
       if (sure > 0) and (sure < 3)
@@ -277,7 +302,7 @@ class Quote
       puts "|#{id.to_s.ljust(2)}|#{dv.ljust(14)}|#{qt.center(6)}| #{plan.ljust(24)}|#{(dol1<<pu).rjust(10)} |#{am.rjust(14)} |"  
     end
     puts "-"*80
-    puts; puts "Hello, #{$userName}"; puts ; puts
+    puts; puts; puts "Hello, #{$userName}"; puts
   end
 
 # Calculations
@@ -418,38 +443,38 @@ class Quote
     fromUtils2 = Utility.new
     loop = true
     while loop == true
-      fromUtils2.display_logo_banner(1)
-      puts"Name the new file to save:"
-      newFile = gets.chomp
-      newFile = newFile.partition(".")
-      newFile = newFile[0]<<".txt"
-      fromUtils2.display_logo_banner(1)
-      error = ""
-      puts "#{error}Will replace any file named \"#{newFile}\" in the destination directory!" 
-      puts " (1) Replace          (2) Cancel     "
-      option = gets.to_i
-      if (option > 0) && (option < 3)
-        case option
-        when 1
-          loop = false
-          File.open(newFile,"w") do |f|
-          f.write $salesQuote
-          fromUtils2.display_logo_banner(1)
-          puts "Save was successful!"
-          sleep 2
+      fromUtils2.display_logo_banner(1) ; puts
+      puts"Name of new file to save:"
+      newFileName = gets.chomp
+      newFileName = newFileName.partition(".")
+      newFileName = newFileName[0]<<".txt"
+      
+      if File::directory?("./#{newFileName}") 
+        fromUtils2.display_logo_banner(1)
+        error = ""
+        puts "#{error}Do you want to replace the file \"#{newFileName}\" in the destination directory?" 
+        puts " (1) Replace          (2) Cancel     "
+        option = gets.to_i
+          if (option > 0) && (option < 3)
+            case option
+            when 1
+              File.rename( "./temporary_internal_use.txt", "./#{newFileName}")
+              returnValue = 1
+              loop = false
+            when 2
+              returnValue = 2
+              loop = false
+            end
+          else
+            error = "Invalid input. "
+          end # if (option)
+        else 
+          File.rename( "./temporary_internal_use.txt", "./#{newFileName}")
           returnValue = 1
-          end
-        when 2
           loop = false
-          fromUtils2.display_logo_banner(1)
-          puts "Save was cancelled!"
-          sleep 2
-          returnValue = 2
-        end
-      else
-        error = "Invalid input. "
-      end
-    end
+      end # if File
+    end # while loop
     return returnValue
   end # Save new quote ends
-end # End class
+  
+end # End Quoter class##########################
