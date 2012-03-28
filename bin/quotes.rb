@@ -1,11 +1,9 @@
 require "./products"
 require "./discounts"
 require "./utilities"
-require "json"
-# This class will help in the business logic and display of quotes by the main application.
-class Quote
 
-# The "Quote" class contains methods which help create the quotes for the sales quote report,
+class Quote
+# The "Quote" class contains methods which help create the quotes for the sales quote,
 # combining user entered information with information fetched from the product file.
 # When a new object from the "Quote" class is created, the "Product" class is loaded as well 
 # as a requirement, since it loads the products from the products file.  This would resemble
@@ -108,7 +106,7 @@ class Quote
     $stdout = output
     self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
     puts; puts; puts "Thank you for your business!".center(80)
-    puts; puts; puts; puts "-".center(80); puts; puts; puts
+    puts; puts; puts; puts "-"*80.center(80); puts; puts; puts
     
     
     output.close
@@ -438,7 +436,7 @@ class Quote
     end
     nextDate = currentDate[0,3]<<nextMonth<<currentDate[5,5]
   end
-    # Section that prompts the user to save the newly created sales Quote to a file.
+  # Method that prompts the user to save the newly created sales Quote to a file.
   def save_new_quote
     fromUtils2 = Utility.new
     loop = true
@@ -449,7 +447,7 @@ class Quote
       newFileName = newFileName.partition(".")
       newFileName = newFileName[0]<<".txt"
       
-      if File::directory?("./#{newFileName}") 
+      if File::directory?("./documents/#{newFileName}") == true
         fromUtils2.display_logo_banner(1)
         error = ""
         puts "#{error}Do you want to replace the file \"#{newFileName}\" in the destination directory?" 
@@ -457,8 +455,15 @@ class Quote
         option = gets.to_i
           if (option > 0) && (option < 3)
             case option
-            when 1
-              File.rename( "./temporary_internal_use.txt", "./#{newFileName}")
+            when 1 # Copy all data from temp file to new file.
+              File.open("./documents/#{newFileName}","w") do |newfile|
+                File.open("./temporary_internal_use.txt","r") do |tempfile|
+                  while line = tempfile.gets
+                    newfile.puts line
+                  end
+                end
+              end
+              #File.rename( "./temporary_internal_use.txt", "./#{newFileName}")
               returnValue = 1
               loop = false
             when 2
@@ -469,7 +474,13 @@ class Quote
             error = "Invalid input. "
           end # if (option)
         else 
-          File.rename( "./temporary_internal_use.txt", "./#{newFileName}")
+          File.open("./documents/#{newFileName}","w") do |newfile|
+            File.open("./temporary_internal_use.txt","r") do |tempfile|
+              while line = tempfile.gets
+                newfile.puts line
+              end
+            end
+          end
           returnValue = 1
           loop = false
       end # if File
