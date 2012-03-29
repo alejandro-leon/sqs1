@@ -5,13 +5,16 @@ require "./utilities"
 class Quote
 # The "Quote" class contains methods which help create the quotes for the sales quote,
 # combining user entered information with information fetched from the product file.
-# When a new object from the "Quote" class is created, the "Product" class is loaded as well 
-# as a requirement, since it loads the products from the products file.  This would resemble
-# accessing a database to retrieve product information.
+# When a new object from the "Quote" class is created, the "Product" class is loaded as
+# well as the "Discount" and "Utility" classes which contain various required methods.
+# The "Product" class loads the products from the products file.  This would resemble
+# accessing a database to retrieve product information.  The same goes for the "Discount"
+# class which works as an interface to the discounts data file.  The "Utility" class
+# provides the banners used throughout the menus.
 
 #Actions
-  # Method for creating a new sales Quote.
-  def initialize # Main method in "Quote" class.
+  # Main method in "Quote" class,it calls the create_new_quote a new sales Quote.
+  def initialize 
     fromUtils2 = Utility.new
     # Option selection  menu for the sales Quote.
     option1 = 1
@@ -24,7 +27,8 @@ class Quote
       if (option1 > 0) && (option1 < 3)
         case option1
         when 1
-          self.create_new_quote # Calls in class method for creating a new Quote.
+          # Calls in class method for creating a new Quote.
+          self.create_new_quote 
           # Menu for saving new quote report. This displays the final sales Quote and gives 
           # the user the option to save the results into a file.
           loop = true
@@ -42,13 +46,7 @@ class Quote
               case option2
               when 1
                 returnValue = self.save_new_quote
-#                if returnValue == 1
-#                  loop = true
                   error = ""
-#                else
-#                  loop = true
-#                  error = ""
-#                end
               when 2
                 File.delete("./temporary_internal_use.txt")
                 loop = false
@@ -72,6 +70,7 @@ class Quote
       end # if
     end # while option1 menu
   end # End new sales Quote method
+  
   # Method that calls the methods get_customer_name, get_business_opportunity,
   # create_quote_line, display_sales_quote,and all the calculation methods to
   # create the final sales quote.
@@ -107,11 +106,8 @@ class Quote
     self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
     puts; puts; puts "Thank you for your business!".center(80)
     puts; puts; puts; puts "-"*80; puts; puts; puts
-    
-    
     output.close
     $stdout = STDOUT
-    
     @salesQuote = self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
     return @salesQuote # Returns the complete Quote with all the information formatted.
   end
@@ -160,7 +156,7 @@ class Quote
   end # def get_business_opportunity
 
   # Quote line methods.#
-  # Method for creating new quote lines.
+  # Method for creating new quote lines.  Used and called by create_new_quote method.
   def create_quote_line
     # A new object is created called "fromProducts" from the "Product" class.
     fromProducts = Product.new
@@ -306,7 +302,7 @@ class Quote
 # Calculations
 # These group of methods get necessary values from the data entered by the user to 
 # the @quoteLines array, which contains all the recently entered data arranged in arrays   
-# of quote lines.  *These methods do a calculation and return a specific value.
+# of quote lines.  *These methods each do a calculation and return a specific value.
 
   # Method for calculating the subtotal price of the selected products,
   # which is the total of product prices without subtracting the discount.
@@ -353,7 +349,7 @@ class Quote
     end
     return @finalDiscountPercent # This returns a string
   end
-  # # After finding the percentage, percentage is converted to its currency value.
+  # After finding the percentage, percentage is converted to its currency value.
   def calculate_discount_price
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (self.calculate_discount_percent).to_f / 100
@@ -373,24 +369,21 @@ class Quote
     tax = 13 * self.calculate_total_price / 100
     return tax # Returns float
   end
-  
-# New Quote methods
-  #Method for displaying the final sales Quote with all the information specified by the user
-  #and the calculations for the total price.
+
+
+  # Method for displaying the final sales Quote with all the information specified by 
+  # the user and the calculations for the total price.
   def display_new_quote(quoteLines,customerName,businessOpportunity,salesTax)
         puts;puts;puts;puts;puts;puts
-        puts "-"*80
-        puts
+        puts "-"*80; puts
         puts "MSA".ljust(80)
-        puts "Sales Quote".center(80)
-        puts
+        puts "Sales Quote".center(80); puts
         puts "Date: #{Time.now.strftime("%d/%m/%Y")}".rjust(80)
         puts "Expiration Date: #{self.display_next_month}".rjust(80)
         puts "Salesperson: #{$userName}".rjust(80)
         puts "To: #{customerName}".ljust(80)
         puts "Business Opportunity: #{businessOpportunity}".ljust(80)
-        puts
-        puts "-"*80
+        puts; puts "-"*80
         puts "|    Device     |Quantity|      Product Plan       | Price/Unit|     Amount    |"
         puts "-"*80
         x = quoteLines # x is just a local variable to ease up typing

@@ -23,6 +23,8 @@
  repeated for the new one.  If not, the final report with all the information entered
  is displayed along with the total price (with discounts if applicable) of the
  selected products with their repective quantities.
+ At the end, the user has the options of saving the newly created sales quote into a file,
+ discard the quote and create another new quote, or quit the application.
 =end
 # Here, the program loads the file containing the class "Users" which is a library 
 # of methods for authenticating the various users of the system.
@@ -36,6 +38,7 @@ load "./quotes.rb"
 load "./utilities.rb"
 # Another object is created here to manage quotes, this one is from the Quote class.
 fromUtils = Utility.new
+
 ################################# User Authentication ###################################
 # In this section the system starts the interaction with the user by calling the 
 # authenticate method to get user information and validate it.
@@ -47,10 +50,14 @@ fromUtils.display_logo_banner(1)
 puts ""
 puts "You have logged in successfully!"
 sleep 2.6
-################################# newQuoteReport starts ####################################
-# A new object from the Quote class is created here and opens a module for creating quotes.
+
+################################# new Quote starts ####################################
+# A new object from the Quote class is created here, automatically opening a module for 
+# creating quotes.  All the main functions of this program are run within this class' object.
 startQuoting = Quote.new
 
-################################### newQuoteReport ends #######################################
+################################## new Quote ends #####################################
+# Once the new object finishes executing, the system displays the last banner and exits
+# the application.
 fromUtils.display_logo_banner(4)
 system "exit"

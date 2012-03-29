@@ -1,4 +1,5 @@
-#This is the class that provides the interface to the discount information.
+#This is the class that provides the interface to the discount information by 
+# accessing the discounts data file.
 class Discount
   # Method that retrieves the discount information from the discounts.txt file
   def initialize #load_discount_list

@@ -1,4 +1,5 @@
 # The "User" class manages anything related to the users of the application.
+# It is the interface to the users data file.
 class User
 
 # Actions
