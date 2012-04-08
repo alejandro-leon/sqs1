@@ -1,4 +1,4 @@
-require "./users"
+load "./users.rb"
 require "./utilities"
 # This class basically contains methods to manage authentication into the system.
 class Authentication

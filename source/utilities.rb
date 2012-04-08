@@ -2,7 +2,7 @@
 class Utility
 
   #  software version
-  VERSION = "0.0.1"
+  VERSION = "0.1.9"
 
   # Method for displaying the banner
   def display_logo_banner(n)
