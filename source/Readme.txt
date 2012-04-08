@@ -7,9 +7,9 @@ Requirements:
 - Maybe a finger or two.
 
 To run the application, open a terminal window to access the command line.
-Navigate to the directory where the sqs-0.1.9.jar file is located.  
+Navigate to the directory where the sqs-0.1.9-java.jar file is located.  
 At the prompt type the following command:
-java -jar sqs-0.1.9.jar
+java -jar sqs-0.1.9-java.jar
 
 The files in the "data" directory contain all the data that will be accessed by the application. 
 Please don't remove or rename the files in that directory, or the program will cease to function and you will stop enjoying all its benefits.
@@ -25,3 +25,4 @@ If you have any real questions, find any bugs or have any constructive criticism
 Hope you enjoy the program and have a happy quoting!
 
 Alejandro León
+Date 08/04/2012
