@@ -26,17 +26,17 @@
  At the end, the user has the options of saving the newly created sales quote into a 
  file, discard the quote and create another new quote, or quit the application.
 =end
-# The application loads the file containing the class "Authentication" which is
-# a library of methods for authenticating the various users of the system.
+# The application first loads the file containing the "Authentication" class which
+# is a library of methods for authenticating the various users of the system.
 require "./authentications.rb"
 # The file with the "Quote" class is loaded here, which contains the quoting methods.
 require "./quotes.rb"
 # The file with the "Utility" class is loaded here, which contains helper methods.
 require "./utilities.rb"
-# Another object is created here to manage users; it is from the Authentication class.
+# An object is created here to manage users; it is from the Authentication class.
 # This object uses a "User" class object as an interface to the users.txt file.
 fromAuthentications = Authentication.new
-# Another object is created here to manage quotes, this one is from the Quote class.
+# Another object is created here to display banners from the Utility class.
 fromUtils = Utility.new
 
 ############################## User Authentication ##################################
@@ -45,21 +45,20 @@ fromUtils = Utility.new
 fromAuthentications.authenticate
 # Displays user's name according to successful login information
 $userName = fromAuthentications.get_full_name
-#fromUtils.send_current_user(@userName)
 fromUtils.display_logo_banner(1)
 puts ""
 puts "You have logged in successfully!"
 sleep 2.6
 
 ############################# Quote Application starts ##############################
-# Main option selection menu for the sales Quote.
+# This is the main option selection menu for the sales Quote.
 option1 = 1
 error = ""
 while option1 == 1
   fromUtils.display_logo_banner(1)
   puts "#{error}Would you like to:"
   puts " (1) Create new Quote           (2) Quit "
-  option1 = gets.to_i
+  option1 = gets.to_i # Gets user input
   if (option1 > 0) && (option1 < 3)
     case option1
     when 1
@@ -69,7 +68,7 @@ while option1 == 1
       newQuote = Quote.new
       @salesQuote = newQuote.create_new_quote
 ############################### new Quote ends ######################################
-      # Menu for saving new quote report. This displays the final sales Quote 
+      # Menu for saving the new quote. This displays the final sales Quote 
       # and gives the user the option to save the results into a file.
       loop = true
       error = ""
@@ -77,7 +76,7 @@ while option1 == 1
       puts "Done! Press \"Enter\" for options."
       gets
       message = ""
-      while loop == true # Loop for saving file
+      while loop == true # Loop for saving the file
         fromUtils.display_logo_banner(1)
         puts "#{message}"
         puts "#{error}Would you like to:  (1) Save Quote    (2) Discard/Continue"

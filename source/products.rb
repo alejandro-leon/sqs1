@@ -25,7 +25,7 @@ class Product
     end
   end
   
-  #Method for accessing the product table created from products.txt file.
+  #Method for accessing the product table created from the products.txt file.
   def get_product_table
     @product
   end
@@ -56,7 +56,7 @@ class Product
     for i in 0...x.count
       p1 = i.next; p2 = x[i][0]; p3 = x[i][1]; p4 = x[i][2]; p5 = x[i][3]; p6 = x[i][4]; dol = "$ "
       puts "|#{p1.to_s.center(5)}| #{p2.ljust(32)}|#{p3.center(17)}|#{(dol<<p5).rjust(19)} |"
-      # The manager suggested not to show the "weight" of the products on screen - #{p4.center(8)}
+      # The Manager suggested not to show the "weight" of the products on screen - #{p4.center(8)}
     end
     puts "-"*80
     puts; puts "Hello, #{$userName}"; puts ; puts

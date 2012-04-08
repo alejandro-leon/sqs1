@@ -128,11 +128,11 @@ class Quote
   # Then find out the discount for the resulting total weight.
   def calculate_discount_percent
     fromDiscounts = Discount.new
-    w = self.calculate_total_weight
+    w = self.calculate_total_weight # Total weight calculated before.
     x = fromDiscounts.get_discount_table  # This is the @discounts array
     tentativeDiscountWeight = 0
-    for i in 0...x.count
-      if w >= x[i][0].to_i
+    for i in 0...x.count  # For each row in the discount table.
+      if w >= x[i][0].to_i  # If total weight is greater or equal to the weight in that row.
         if tentativeDiscountWeight < x[i][0].to_i # No matter what order the arrays are in,
           tentativeDiscountWeight = x[i][0].to_i  # this will sort out the highest match.
           discountIndex = i # With this index we can find which array contains the % we want.

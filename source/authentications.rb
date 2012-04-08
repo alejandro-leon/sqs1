@@ -1,3 +1,5 @@
+# Loads the User class to access the data store in the users.txt file.
+# The Utility class is loaded to help display the initial banner.
 load "./users.rb"
 require "./utilities"
 # This class basically contains methods to manage authentication into the system.
