@@ -1,22 +1,25 @@
-# Here discounts is loaded each time a new object of the Quote class is created.
+# Here discounts is loaded each time a new object from the Quote class is created.
 load "./discounts.rb"
 require "./utilities.rb"
 require "./quotelines.rb"
 class Quote
 # The "Quote" class contains methods which help create the quotes for the sales quote,
-# combining user entered information with quote line created by the QuoteLine class.
-#  The "Utility" class provides the banners used throughout the menus.
+# combining user entered information with quote lines created by the QuoteLine class.
+# The "Utility" class provides the banners used throughout some of the menus.
 
   # Method that calls the methods get_customer_name, get_business_opportunity,
   # display_sales_quote, all the calculation methods and also creates a new quote line
   # by creating an object from the QuoteLine class to create the final sales quote.
   def create_new_quote
+    # Gets customer name
     @customerName = self.get_customer_name
+    # Gets business opportunity
     @businessOpportunity = self.get_business_opportunity
-    # New QuoteLine class object is created
+    # New QuoteLine class object is created.
     fromQuoteLines = QuoteLine.new
+    # The returned value is an array with device information and a selected product
     @quoteLines = fromQuoteLines.create_quote_line
-    # Option selection  menu for the sales Quote
+    # Option selection menu for the sales quote taxing
     loop = true
     error = ""
     while loop == true
@@ -61,7 +64,7 @@ class Quote
       customerName = gets.strip.chomp    #Blank spaces stripped at input.
       # Check customer name is no longer than 50 characters and not blank.
       c = customerName.length
-      customer = (c > 0) && (c < 51) # Asigns boolean.
+      customer = (c > 0) && (c < 51) # Assigns boolean.
       if c == 0
         alert = "Invalid input. "
       else if c > 50
@@ -70,7 +73,7 @@ class Quote
       end # if d
     end  # until customer
     return customerName
-  end # def get_customer_name
+  end # def
   # Method for getting the business opportunity information.
   def get_business_opportunity
     fromUtils2 = Utility.new
@@ -111,7 +114,7 @@ class Quote
   end
   # Method to help calculate the discount.  It checks if the total weight of the quote lines 
   # matches any of the thresholds and gets the specified discount percentage for the match.
-  # First we find out the total weight of all the devices.
+  # First, find out the total weight of all the devices.
   def calculate_total_weight
     x = @quoteLines
     totalWeight = 0
@@ -122,7 +125,7 @@ class Quote
     end
     return totalWeight # This returns an integer
   end
-  # Then find out the discount to the resulting total weight.
+  # Then find out the discount for the resulting total weight.
   def calculate_discount_percent
     fromDiscounts = Discount.new
     w = self.calculate_total_weight

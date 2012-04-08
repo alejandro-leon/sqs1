@@ -1,4 +1,4 @@
-#This is the class that provides the interface to the discount information by 
+# This is the class that provides the interface to the discount information by 
 # accessing the discounts data file.
 class Discount
   # Method that retrieves the discount information from the discounts.txt file
@@ -17,7 +17,7 @@ class Discount
     end # for i
   end # def
 
-    #Method for accessing the product table created from products.txt file.
+  # Method for accessing the discount table created from the discount.txt file.
   def get_discount_table
     @discount
   end
