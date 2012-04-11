@@ -66,40 +66,8 @@ while option1 == 1
       # A new object from the Quote class is created here. 
       # It then proceeds to open a module for creating quotes.
       newQuote = Quote.new
-      @salesQuote = newQuote.create_new_quote
+      newQuote.create_new_quote
 ############################### new Quote ends ######################################
-      # Menu for saving the new quote. This displays the final sales Quote 
-      # and gives the user the option to save the results into a file.
-      loop = true
-      error = ""
-      @salesQuote # Displays the new sales quote.
-      puts "Done! Press \"Enter\" for options."
-      gets
-      message = ""
-      while loop == true # Loop for saving the file
-        fromUtils.display_logo_banner(1)
-        puts "#{message}"
-        puts "#{error}Would you like to:  (1) Save Quote    (2) Discard/Continue"
-        option2 = gets.to_i
-        if (option2 > 0) && (option2 < 3)
-          case option2
-          when 1
-            returnValue = newQuote.save_new_quote
-            error = ""
-          when 2
-            File.delete("./temporary_internal_use.txt")
-            loop = false
-          end
-        else
-          error = "Invalid input. "
-        end
-        case returnValue # Case for selecting the save message to display.
-        when 1
-          message = "Save was successful!"
-        when 2
-          message = "Save was cancelled!"
-        end
-      end # while loop Menu
     when 2
       option1 = 2
     end

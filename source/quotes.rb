@@ -50,9 +50,42 @@ class Quote
     output.close
     $stdout = STDOUT
     @salesQuote = self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
-    return @salesQuote 
-  end # Returns the complete Quote with all the information formatted.
- 
+    # Menu for saving the new quote. This displays the final sales Quote 
+    # and gives the user the option to save the results into a file.
+    loop = true
+    error = ""
+    @salesQuote # Displays the new sales quote.
+    puts "Done! Press \"Enter\" for options."
+    gets
+    message = ""
+    fromUtils2 = Utility.new
+    while loop == true # Loop for saving the file
+      fromUtils2.display_logo_banner(1)
+      puts "#{message}"
+      puts "#{error}Would you like to:  (1) Save Quote    (2) Discard/Continue"
+      option2 = gets.to_i
+      if (option2 > 0) && (option2 < 3)
+        case option2
+        when 1
+          returnValue = self.save_new_quote
+          error = ""
+        when 2
+          File.delete("./temporary_internal_use.txt")
+          loop = false
+        end
+      else
+        error = "Invalid input. "
+      end
+      case returnValue # Case for selecting the save message to display.
+      when 1
+        message = "Save was successful!"
+      when 2
+        message = "Save was cancelled!"
+      end
+    end # while loop Menu, end save.
+    return nil
+  end # end create_new_quote
+  
   # Method for getting the customer's name.
   def get_customer_name
     fromUtils2 = Utility.new
@@ -233,16 +266,17 @@ class Quote
   def save_new_quote
     fromUtils2 = Utility.new
     loop = true
+    error = ""
     while loop == true
       fromUtils2.display_logo_banner(1) ; puts
-      puts"Name of new file to save:"
+      puts"#{error}Enter name of new file to save:"
       newFileName = gets.chomp
       newFileName = newFileName.partition(".")
       newFileName = newFileName[0]<<".txt"
       if File::file?("./#{newFileName}") == true  # Verify if file already exits.
         fromUtils2.display_logo_banner(1)
         error = ""
-        puts "#{error}Replace the file \"#{newFileName}\" in the destination directory?" 
+        puts "Replace the file \"#{newFileName}\" in the destination directory?" 
         puts " (1) Replace          (2) Cancel     "
         option = gets.to_i
           if (option > 0) && (option < 3)

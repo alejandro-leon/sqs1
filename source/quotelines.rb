@@ -108,11 +108,12 @@ class QuoteLine
         self.display_quote_line(@quoteLines) ; puts
         puts "#{error1}#{error2}Which quote line would you like to delete?"
         lineID = gets.chomp
+        error2 = ""
         #Check lineID is within range of products. 
         #Range tested with value equivalence analysis.
         n = lineID.to_i
         del2 = (n >= 1) && (n <= @quoteLines.length)
-        error1 = "\"#{lineID}\" is not an option.  "
+        error1 = "\"#{lineID}\" is not an option. "
       end # until del2
       self.display_quote_line(@quoteLines) ; puts
       puts "#{error2}Are you sure you want to delete line \"#{lineID}\"?    1 (No)  2 (Yes)"
@@ -125,7 +126,7 @@ class QuoteLine
             del = true
           when 1
             del = true
-        end 
+        end
       else
         error2 = "Invalid input. "
         del = false
