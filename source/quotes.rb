@@ -1,11 +1,12 @@
-# Here discounts is loaded each time a new object from the Quote class is created.
+# The "Quote" class contains methods that help create the new sales quote by
+# combining user entered information with quote lines created by the QuoteLine class.
+# The "Utility" class provides the banners used throughout some of the menus.
+# The file discounts.rb is loaded each time a new object from the Quote class is created.
+# The other two files are only loaded if not already loaded by another class.
 load "./discounts.rb"
 require "./utilities.rb"
 require "./quotelines.rb"
 class Quote
-# The "Quote" class contains methods which help create the quotes for the sales quote,
-# combining user entered information with quote lines created by the QuoteLine class.
-# The "Utility" class provides the banners used throughout some of the menus.
 
   # Method that calls the methods get_customer_name, get_business_opportunity,
   # display_sales_quote, all the calculation methods and also creates a new quote line
@@ -121,7 +122,7 @@ class Quote
       business = (c > 0) && (c < 51)
       if c == 0
         alert = "Invalid input. "
-      else if c > 51
+      else if c > 50
             alert = "50 character limit.  "
           end
       end # if d

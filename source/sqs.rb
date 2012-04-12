@@ -26,6 +26,7 @@
  At the end, the user has the options of saving the newly created sales quote into a 
  file, discard the quote and create another new quote, or quit the application.
 =end
+
 # The application first loads the file containing the "Authentication" class which
 # is a library of methods for authenticating the various users of the system.
 require "./authentications.rb"
@@ -39,7 +40,7 @@ fromAuthentications = Authentication.new
 # Another object is created here to display banners from the Utility class.
 fromUtils = Utility.new
 
-############################## User Authentication ##################################
+############################ User Authentication ###########################
 # In this section the system starts the interaction with the user by calling the 
 # authenticate method to get user information and validate it.
 fromAuthentications.authenticate
@@ -50,7 +51,7 @@ puts ""
 puts "You have logged in successfully!"
 sleep 2.6
 
-############################# Quote Application starts ##############################
+########################### Quote Application starts #########################
 # This is the main option selection menu for the sales Quote.
 option1 = 1
 error = ""
@@ -62,12 +63,12 @@ while option1 == 1
   if (option1 > 0) && (option1 < 3)
     case option1
     when 1
-############################## new Quote starts #####################################
+############################## new Quote starts #############################
       # A new object from the Quote class is created here. 
       # It then proceeds to open a module for creating quotes.
       newQuote = Quote.new
       newQuote.create_new_quote
-############################### new Quote ends ######################################
+############################## new Quote ends ##############################
     when 2
       option1 = 2
     end
@@ -76,9 +77,9 @@ while option1 == 1
     option1 = 1
   end # if
 end # while option1 menu
-############################## Quote Application ends ##############################
+############################ Quote Application ends ###########################
 # Once the new object finishes executing, the system displays the last banner 
 # and exits the application.
 fromUtils.display_logo_banner(4)
 system "exit"
-################################ End of Application #################################
+############################## End of Application #############################

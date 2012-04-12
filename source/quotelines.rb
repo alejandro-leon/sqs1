@@ -1,15 +1,15 @@
-# The products.rb file is loaded each time a new object of the QuoteLine class is created.
-load "./products.rb"
-require "./utilities" # Loads only if not loaded yet.
-
-class QuoteLine
 # The "QuoteLine" class contains methods which create the quote lines for the sales quote,
 # combining user entered information for the device with information from the products file.
 # When a new object from the "QuoteLine" class is created, the "Product" class is loaded as
 # well as the "Utility" class which contain various required methods.
 # The "Product" class loads the products from the products file.  This would resemble
-# accessing a database to retrieve product information.  The "Utility" class
-# provides the banners used throughout the menus.
+# accessing a database to retrieve product information.  
+# The "Utility" class provides the banners used throughout the menus.
+# The products.rb file is loaded each time a new object of the QuoteLine class is created.
+load "./products.rb"
+require "./utilities" # Loads only if not loaded yet.
+
+class QuoteLine
 
   # Method for creating new quote lines.  Used and called by the Quote class object with the 
   # create_new_quote method.

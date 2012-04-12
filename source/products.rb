@@ -1,4 +1,4 @@
-# This Class contains the methods to control the different actions and forms related
+# The Procuct class contains the methods to control the different actions and forms related
 # to the products application.  It is the interface to the products data file.
 class Product
 
