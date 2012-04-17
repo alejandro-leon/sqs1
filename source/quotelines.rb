@@ -116,7 +116,7 @@ class QuoteLine
         error1 = "\"#{lineID}\" is not an option. "
       end # until del2
       self.display_quote_line(@quoteLines) ; puts
-      puts "#{error2}Are you sure you want to delete line \"#{lineID}\"?    1 (No)  2 (Yes)"
+      puts "#{error2}Are you sure you want to delete line \"#{lineID}\"?    (1) No  (2) Yes"
       sure = gets.to_i
       if (sure > 0) and (sure < 3)
         case sure
