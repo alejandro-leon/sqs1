@@ -21,6 +21,11 @@ The "discounts.txt" file includes the discount percentages matching their counte
 
 To add or remove new items, just edit the above files following the same format pattern shown in the examples included in the files.
 
+The source directory contains the source code for the SQS application in Ruby code.
+This can be run with the Ruby application.  
+At the command prompt in the 'source' directory type:
+ruby sqs.rb
+
 If you have any real questions, find any bugs or have any constructive criticism, please feel free to e-mail the author at: ala3@student.london.ac.uk
 
 
