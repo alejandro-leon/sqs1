@@ -11,6 +11,7 @@ class Quote
   # Method that calls the methods get_customer_name, get_business_opportunity,
   # display_sales_quote, all the calculation methods and also creates a new quote line
   # by creating an object from the QuoteLine class to create the final sales quote.
+      
   def create_new_quote
     # Gets customer name
     @customerName = self.get_customer_name
@@ -41,23 +42,15 @@ class Quote
         loop = true
       end
     end
-    # Saves a temp file with the data from the new Quote
-    newFile = "./temporary_internal_use.txt"
-    output = File.open(newFile, "w")
-    $stdout = output
-    self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
-    puts; puts; puts "Thank you for your business!".center(80)
-    puts; puts; puts; puts "-"*80; puts; puts; puts
-    output.close
-    $stdout = STDOUT
-    @salesQuote = self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
-    # Menu for saving the new quote. This displays the final sales Quote 
-    # and gives the user the option to save the results into a file.
-    loop = true
-    error = ""
-    @salesQuote # Displays the new sales quote.
+    self.save_temp_quote # Saves a temp file with the data from the new Quote
+    # This displays the preview of the final sales Quote 
+    salesQuote = self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
+    salesQuote # Displays the new sales quote.
     puts "Done! Press \"Enter\" for options."
     gets
+    # Menu for saving the new quote.and gives the user the option to save the results into a file.
+    loop = true
+    error = ""
     message = ""
     fromUtils2 = Utility.new
     while loop == true # Loop for saving the file
@@ -135,16 +128,16 @@ class Quote
 # the @quoteLines array, which contains all the recently entered data arranged in arrays   
 # of quote lines.  *These methods each do a calculation and return a specific value.
 
-  # Method for calculating the subtotal price of the selected products,
+  # Method for calculating the total of all the quote line prices of the selected products,
   # which is the total of product prices without subtracting the discount.
-  def calculate_subtotal_price
+  def calculate_lines_price
     x = @quoteLines
-    subtotalPrice = 0
-  # For each line in the table, subtotalPrice is sum of all the (quantity * price) amounts.
+   linesPrice = 0
+  # For each line in the table, linesPrice is sum of all the (quantity * price) amounts.
       for i in 0...x.count
-      subtotalPrice += (x[i][1].to_i * x[i][5].to_f)
+      linesPrice += (x[i][1].to_i * x[i][5].to_f)
       end
-    return subtotalPrice # Returns subtotalPrice as a float
+    return linesPrice # Returns linesPrice as a float
   end
   # Method to help calculate the discount.  It checks if the total weight of the quote lines 
   # matches any of the thresholds and gets the specified discount percentage for the match.
@@ -184,23 +177,26 @@ class Quote
   def calculate_discount_price
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (self.calculate_discount_percent).to_f / 100
-    # Finally the subtotal price is multiplied by percent to get the total price.
-    discountPrice = self.calculate_subtotal_price * percent
+    # Finally the lines price is multiplied by percent to get the total price.
+    discountPrice = self.calculate_lines_price * percent
     return discountPrice # This returns a float
   end
-  # Later, the discount amount is subtracted from the subtotal price to get the total.
-  def calculate_total_price
-    totalPrice = self.calculate_subtotal_price - self.calculate_discount_price
-    return totalPrice # Returns float
+  # Later, the discount amount is subtracted from the lines price to get the subtotal.
+  def calculate_subtotal_price
+    subtotalPrice = self.calculate_lines_price - self.calculate_discount_price
+    return subtotalPrice # Returns float
   end
   # Sales tax calculation method.  This tax is not included in the total price of the
   # calculate_total_price method because there are some customers which are from 
   # government or nonprofit institutions.
   def calculate_tax_price
-    tax = 13 * self.calculate_total_price / 100
+    tax = 13 * self.calculate_subtotal_price / 100
     return tax # Returns float
   end
-
+  # The total sales price is the subtotal price plus the sales tax price.
+  def calculate_total_price
+    total = self.calculate_subtotal_price + self.calculate_tax_price
+  end
 
   # Method for displaying the final sales Quote with all the information specified by 
   # the user and the calculations for the total price.
@@ -238,7 +234,7 @@ class Quote
       ("-$ %6.2f"%dp.to_s).rjust(14)} |"
     end
     puts "-"*80 # This subtotal is actually named total price in the methods
-    tp = self.calculate_total_price
+    tp = self.calculate_subtotal_price
     puts "Subtotal |#{("$ %6.2f"%tp.to_s).rjust(14)} |".rjust(80) 
     case salesTax
     when 1
@@ -247,7 +243,7 @@ class Quote
       st = 0.00
     end
     puts "Sales Tax |#{("$ %6.2f"%st.to_s).rjust(14)} |".rjust(80)
-    total = tp + st; 
+    total = self.calculate_total_price
     puts "-----------------".rjust(80)
     puts "Total |#{("$ %6.2f"%total.to_s).rjust(14)} |".rjust(80)
     puts "-----------------".rjust(80)
@@ -262,6 +258,17 @@ class Quote
       nextMonth = "01"
     end
     nextDate = currentDate[0,3]<<nextMonth<<currentDate[5,5]
+  end
+  # Method that saves a temp file with the data from the new Quote
+  def save_temp_quote
+    newFile = "./temporary_internal_use.txt"
+    output = File.open(newFile, "w")
+    $stdout = output
+    self.display_new_quote(@quoteLines,@customerName,@businessOpportunity,@tax)
+    puts; puts; puts "Thank you for your business!".center(80)
+    puts; puts; puts; puts "-"*80; puts; puts; puts
+    output.close
+    $stdout = STDOUT
   end
   # Method that prompts the user to save the newly created sales Quote to a file.
   def save_new_quote

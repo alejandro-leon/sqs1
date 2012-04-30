@@ -1,10 +1,9 @@
-require "./data/discounts"
-
 # This file contains a copy of the methods containing different calculation
 # algorithms for the program.
 # Each method here was modified to be tested individually with the tests included
 # in the accompanying test file "tests.unit.rb" runs with the Unit::Test library.
 # Some of these methods require access to the discounts.txt file for data.
+load "./discounts.rb"
 
 class Stub
 =begin
@@ -44,29 +43,40 @@ class Stub
 
 =begin
 =end
-  def calculate_subtotal_price(productTable)
+  def calculate_lines_price(productTable)
     x = productTable
-    subtotalPrice = 0
-  # For each line in the table, subtotalPrice is sum of all the (quantity * price) amounts.
+    linesPrice = 0
+  # For each line in the table, linesPrice is sum of all the (quantity * price) amounts.
       for i in 0...x.count
-      subtotalPrice += (x[i][1].to_i * x[i][5].to_f).round(2)
+      linesPrice += (x[i][1].to_i * x[i][5].to_f).round(2)
       end
-    subtotalPrice
+    linesPrice
   end
 =begin
 =end
-  def calculate_discount_price(discount_percent,subtotal_price)
+  def calculate_discount_price(discount_percent,lines_price)
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (discount_percent).to_f / 100
     # Finally the subtotal price is multiplied by percent to get the total price.
-    discountPrice = subtotal_price * percent
+    discountPrice = lines_price * percent
     return discountPrice # This returns a float
   end
 
 =begin
 =end
-  def calculate_total_price(subtotal_price,discount_price)
-    totalPrice = subtotal_price - discount_price 
+  def calculate_subtotal_price(lines_price,discount_price)
+    subtotalPrice = lines_price - discount_price 
   end    
+=begin
+=end
+  def calculate_tax_price(subtotal_price)
+    tax = 13 * subtotal_price / 100
+    return tax # Returns float
+  end
+=begin 
+=end
+  def calculate_total_price(subtotal_price,tax_price)
+    totalPrice = subtotal_price + tax_price
+  end
 
 end

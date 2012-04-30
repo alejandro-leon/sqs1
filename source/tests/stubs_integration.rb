@@ -1,4 +1,3 @@
-require "./data/discounts"
 # This class is basicallly an excerpt from the "Quote" class.
 # Its main purpose is to help test the integration of all the stubs involved in the 
 # calculation of the total price from all the quote lines created by the user for
@@ -9,6 +8,7 @@ require "./data/discounts"
 # Following are the same methods tested individually by the "tests_unit.rb", but here
 # none of the methods is modified.  They will run sequentially as intended in the progam,
 # activated by two integration methods.
+load "./discounts.rb"
 
 class StubIntegration
 
@@ -26,12 +26,13 @@ class StubIntegration
 # this class.
   def integrate_calculation_methods_2(quoteLinesArray)
     @quoteLines = quoteLinesArray
-    self.calculate_subtotal_price
+    self.calculate_lines_price
     self.calculate_total_weight
     self.calculate_discount_percent
     self.calculate_discount_price
-    self.calculate_total_price
+    self.calculate_subtotal_price
     self.calculate_tax_price
+    self.calculate_total_price
   end
 
 # Calculations
@@ -41,14 +42,14 @@ class StubIntegration
 
 # Method for calculating the subtotal price of the selected products,
 # which is the total of product prices without subtracting the discount.
-  def calculate_subtotal_price
+  def calculate_lines_price
     x = @quoteLines
-    subtotalPrice = 0
-  # SubtotalPrice is sum of all the (quantity * price) amounts in each line of the table.
+    linesPrice = 0
+  # Variable linesPrice is sum of all the (quantity * price) amounts in each line of the table.
       for i in 0...x.count
-      subtotalPrice += (x[i][1].to_i * x[i][5].to_f)#.round(2)
+      linesPrice += (x[i][1].to_i * x[i][5].to_f)
       end
-    return subtotalPrice # Returns subtotalPrice as a float
+    return linesPrice.round(2) # Returns linesPrice as a float
   end
 # Method to help calculate the discount.  It checks if the total weight of the quote lines 
 # matches any of the thresholds set in the "discounts.txt" file and gets the specified
@@ -90,17 +91,22 @@ class StubIntegration
     #First turn the discount percent from a string into a float. Then divide it by 100.
     percent = (self.calculate_discount_percent).to_f / 100
     # Finally the subtotal price is multiplied by percent to get the total price.
-    discountPrice = self.calculate_subtotal_price * percent
+    discountPrice = self.calculate_lines_price * percent
     return discountPrice # This returns a float.
   end
-# Later, the discount amount is subtracted from the subtotal price to get the total.
-  def calculate_total_price
-    totalPrice = self.calculate_subtotal_price - self.calculate_discount_price
-    return totalPrice.round(2) # This returns a float
+# Later, the discount amount is subtracted from the quote lines price to get the subtotal.
+  def calculate_subtotal_price
+    subtotalPrice = self.calculate_lines_price - self.calculate_discount_price
+    return subtotalPrice.round(2) # This returns a float
   end
 # Figures out the sales tax, simple multiply and divide.  Added to total if needed.
   def calculate_tax_price
-    tax = 13 * self.calculate_total_price / 100
-    return tax # Returns float
+    tax = 13 * self.calculate_subtotal_price / 100
+    return tax.round(2) # Returns float
+  end
+    # The total sales price is the subtotal price plus the sales tax price.
+  def calculate_total_price
+    total = self.calculate_subtotal_price + self.calculate_tax_price
+    return total.round(2) # Returns float
   end
 end
