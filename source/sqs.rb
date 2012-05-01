@@ -19,10 +19,10 @@
  with the various service products is displayed and the user has to select one of them
  for the described device(s).
  After all this input, the user is asked if another device needs to be added to the
- list.  If yes, the steps to add a device and its repective service product are
+ list.  If yes, the steps to add a device and its respective service product are
  repeated for the new one.  If not, the final report with all the information entered
  is displayed along with the total price (with discounts if applicable) of the
- selected products with their repective quantities.
+ selected products with their respective quantities.
  At the end, the user has the options of saving the newly created sales quote into a 
  file, discard the quote and create another new quote, or quit the application.
 =end
