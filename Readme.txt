@@ -1,7 +1,7 @@
 SQS version 0.1.9
 
 The Sales Quotig System is an application that aids in the creation of saless quotes.
-s
+
 Quick Guide
 
 Requirements:
